@@ -8,4 +8,4 @@ total = base + vat_amount
 
 print(f"База после скидки: {base:.2f}")
 print(f"НДС: {vat_amount:.2f}")
-print(f"Итого к оплате: {total:.2f}")//i7tyury5ey5ey45y
+print(f"Итого к оплате: {total:.2f}")
