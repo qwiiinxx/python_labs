@@ -22,5 +22,15 @@ def unique_sorted(nums):
 # print(unique_sorted([1.0, 1, 2.5, 2.5, 0]))
 
 
-def flatten():
+def flatten(nums):
+    result = []
+    for i in nums:
+        if not isinstance(i, (tuple, list)):
+            raise TypeError('строка не строка строк матрицы')
+        result.extend(i)
+    return result
     
+print(flatten([[1, 2], [3, 4]]))
+print(flatten(([1, 2], (3, 4, 5))))
+print(flatten([[1], [], [2, 3]]))
+print(flatten([[1, 2], "ab"]))
