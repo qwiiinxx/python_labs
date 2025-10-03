@@ -38,5 +38,15 @@ def tokenize(text: str) -> list[str]:
 # print(tokenize("emoji 😀 не слово"))
 
 
+def key_sort(item: tuple[str, int]) -> tuple[int, str]:
+    word, counter = item
+    return - counter, word
+
 def top_n(freq: dict[str, int], n: int = 5) -> list[tuple[str, int]]:
-    
+    items = list(freq.items())
+    items.sort(key=key_sort)
+    return items[:n]
+
+print(top_n({"a":3,"b":2,"c":1}, n=2)) # [('a', 3), ('b', 2)]
+print(top_n({"aa":2,"bb":2,"cc":1}, n=2)) # [('aa', 2), ('bb', 2)]
+print(top_n({"x":5,"y":5,"a":5}, n=3))
