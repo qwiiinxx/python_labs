@@ -31,8 +31,12 @@ def tokenize(text: str) -> list[str]:
         result.append(word)
     return result
 
-print(tokenize("привет мир"))
-print(tokenize("hello,world!!!"))
-print(tokenize("по-настоящему круто"))
-print(tokenize("2025 год"))
-print(tokenize("emoji 😀 не слово"))
+# print(tokenize("привет мир"))
+# print(tokenize("hello,world!!!"))
+# print(tokenize("по-настоящему круто"))
+# print(tokenize("2025 год"))
+# print(tokenize("emoji 😀 не слово"))
+
+
+def top_n(freq: dict[str, int], n: int = 5) -> list[tuple[str, int]]:
+    
