@@ -1,4 +1,4 @@
-def min_max(nums): # [3, -1, 5, 5, 0]
+def min_max(nums: list[float | int]) -> tuple[float | int, float | int]: # [3, -1, 5, 5, 0]
     if not nums:
         raise ValueError('Список пуст')
     return (min(nums), max(nums))
@@ -10,7 +10,7 @@ def min_max(nums): # [3, -1, 5, 5, 0]
 # print(min_max([]))                 
 # print(min_max([1.5, 2, 2.0, -3.1]))
 
-def unique_sorted(nums):
+def unique_sorted(nums: list[float | int]) -> list[float | int]:
     if nums == []:
         return []
     else:
@@ -22,9 +22,9 @@ def unique_sorted(nums):
 # print(unique_sorted([1.0, 1, 2.5, 2.5, 0]))
 
 
-def flatten(nums):
+def flatten(mat: list[list | tuple]) -> list:
     result = []
-    for i in nums:
+    for i in mat:
         if not isinstance(i, (tuple, list)):
             raise TypeError('строка не строка строк матрицы')
         result.extend(i)

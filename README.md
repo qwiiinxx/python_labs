@@ -41,10 +41,32 @@
 
 ### Задание 1
 #### 1 функция
+```python
+def min_max(nums):
+    if not nums:
+        raise ValueError('Список пуст')
+    return (min(nums), max(nums))
+```
 ![Картинка 1](./images/lab02/img01.png)
 #### 2 функция
+```python
+def unique_sorted(nums: list[float | int]) -> list[float | int]:
+    if nums == []:
+        return []
+    else:
+        return sorted(set(nums))
+```
 ![Картинка 2](./images/lab02/img02.png)
 #### 3 функция
+```python
+def flatten(mat: list[list | tuple]) -> list:
+    result = []
+    for i in mat:
+        if not isinstance(i, (tuple, list)):
+            raise TypeError('строка не строка строк матрицы')
+        result.extend(i)
+    return result
+```
 ![Картинка 3](./images/lab02/img03.png)
 
 
