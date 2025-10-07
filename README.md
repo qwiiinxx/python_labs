@@ -118,16 +118,17 @@ def col_sums(mat: list[list[float | int]]) -> list[float]:
 
 ### Задание С
 ```python
-def format_record(rec: tuple[str, str, float]):
-    fio, group, gpa = rec
+def format_record(rec: tuple[str, str, float]) -> str:
 
-    if not isinstance(rec, tuple):           # ошибки на данные
+    if not isinstance(rec, tuple):                          # ошибки на кортеж
         raise TypeError("нужен кортеж")
     
     if len(rec) != 3:
         raise ValueError("нужно 3 элемента")
+    
+    fio, group, gpa = rec
 
-    if not isinstance(fio, str) or not isinstance(group, str):
+    if not isinstance(fio, str) or not isinstance(group, str):   # ошибки на данные
         raise TypeError("данные должны быть строкой")
     
     if not isinstance(gpa, float):

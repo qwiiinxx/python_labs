@@ -1,13 +1,14 @@
-def format_record(rec: tuple[str, str, float]):
-    fio, group, gpa = rec
+def format_record(rec: tuple[str, str, float]) -> str:
 
-    if not isinstance(rec, tuple):           # ошибки на данные
+    if not isinstance(rec, tuple):                          # ошибки на кортеж
         raise TypeError("нужен кортеж")
     
     if len(rec) != 3:
         raise ValueError("нужно 3 элемента")
+    
+    fio, group, gpa = rec
 
-    if not isinstance(fio, str) or not isinstance(group, str):
+    if not isinstance(fio, str) or not isinstance(group, str):   # ошибки на данные
         raise TypeError("данные должны быть строкой")
     
     if not isinstance(gpa, float):
@@ -34,8 +35,8 @@ def format_record(rec: tuple[str, str, float]):
     gpa = f"{float(gpa):.2f}"
     return f"{surname} {initials}, гр. {group}, GPA {gpa}"
 
-print(format_record(("Иванов Иван Иванович", "BIVT-25", 4)))
-# print(format_record(("Иванов Иван Иванович", "BIVT-25", 4.6)))
-# print(format_record(("Петров Пётр", "IKBO-12", 5.0)))
-# print(format_record(("Петров Пётр Петрович", "IKBO-12", 5.0)))
-# print(format_record(("  сидорова  анна   сергеевна ", "ABB-01", 3.999)))
+# print(format_record(("Иванов Иван Иванович", "BIVT-25", 4)))
+print(format_record(("Иванов Иван Иванович", "BIVT-25", 4.6)))
+print(format_record(("Петров Пётр", "IKBO-12", 5.0)))
+print(format_record(("Петров Пётр Петрович", "IKBO-12", 5.0)))
+print(format_record(("  сидорова  анна   сергеевна ", "ABB-01", 3.999)))
