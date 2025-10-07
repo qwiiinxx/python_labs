@@ -1,8 +1,11 @@
 def format_record(rec: tuple[str, str, float]):
     fio, group, gpa = rec
 
-    if not isinstance(rec, tuple) or len(rec) != 3:           # ошибки на данные
-        raise ValueError("нужен кортеж из 3-х элементов")
+    if not isinstance(rec, tuple):           # ошибки на данные
+        raise TypeError("нужен кортеж")
+    
+    if len(rec) != 3:
+        raise ValueError("нужно 3 элемента")
 
     if not isinstance(fio, str) or not isinstance(group, str):
         raise TypeError("данные должны быть строкой")

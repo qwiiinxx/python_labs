@@ -15,7 +15,7 @@ def transpose(mat: list[list[float | int]]) -> list[list]:
 # print(transpose([]))
 # print(transpose([[1, 2], [3]]))
 
-def row_sums(mat: list[list[float | int]]) -> list[float]: # ПЕРЕДЕЛАТЬ!!!! img05
+def row_sums(mat: list[list[float | int]]) -> list[float]:
     n_len = len(mat[0])
     for n in mat:
         if len(n) != n_len:
