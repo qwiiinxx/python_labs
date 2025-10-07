@@ -13,8 +13,6 @@ def format_record(rec: tuple[str, str, float]):
     if not isinstance(gpa, float):
         raise TypeError("данные должны быть вещественным числом")
 
-
-
     if not fio:                                              # ошибки на пустоту
         raise ValueError("нельзя оставлять пустым")
 
@@ -35,14 +33,8 @@ def format_record(rec: tuple[str, str, float]):
 
     gpa = f"{float(gpa):.2f}"
     return f"{surname} {initials}, гр. {group}, GPA {gpa}"
+
 print(format_record(("Иванов Иван Иванович", "BIVT-25", 4)))
-
-
-
-
-
-
-
 # print(format_record(("Иванов Иван Иванович", "BIVT-25", 4.6)))
 # print(format_record(("Петров Пётр", "IKBO-12", 5.0)))
 # print(format_record(("Петров Пётр Петрович", "IKBO-12", 5.0)))
