@@ -116,10 +116,11 @@ def col_sums(mat: list[list[float | int]]) -> list[float]:
     return result
 
 print(col_sums([[1, 2, 3], [4, 5, 6]])) # [5, 7, 9]
+print(col_sums([[1, 3, 3], [1, 1, 1], [1, 1, 1]]))
 print(col_sums([[-1, 1], [10, -10]])) # [9, -9]
 print(col_sums([[0, 0], [0, 0]])) # [0, 0]
 print(col_sums([[1, 2], [3]]))
-print(col_sums([[1, 3, 3], [1, 1, 1], [1, 1, 1]]))
+
 ```
 ![Картинка 6](./images/lab02/img06.png)
 
