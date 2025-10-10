@@ -12,10 +12,10 @@ def normalize(text: str, *, casefold: bool = True, yo2e: bool = True) -> str:
 # print(normalize("ПрИвЕт\nМИр\t")) # "привет, мир"
 # print(normalize("ёжик, Ёлка")) # "ежик, елка"
 # print(normalize("Hello\r\nWorld")) # "hello world"
-# print(normalize("  двойные   пробелы  ")) # "hello world"
+# print(normalize("  двойные   пробелы  ")) # "двойные пробелы"
 
 
-def tokenize(text: str) -> list[str]:
+def tokenize(text: str) -> list[str]: # 'hello, world'
     result = []
     word = ''
     for i, w in enumerate(text):
@@ -38,13 +38,19 @@ def tokenize(text: str) -> list[str]:
 # print(tokenize("emoji 😀 не слово"))
 
 
-def count_freq(item: tuple[str, int]) -> tuple[int, str]:
-    word, counter = item
-    return - counter, word
+def count_freq(tokens: list[str]) -> dict[str, int]:
+    result = {}
+    for word in tokens:
+        result[word] = result.get(word, 0) + 1
+    return result
+
+# print(count_freq(["a","b","a","c","b","a"]))
+# print(count_freq(["bb", "aa", "bb", "aa", "cc"]))
+
 
 def top_n(freq: dict[str, int], n: int = 5) -> list[tuple[str, int]]:
     items = list(freq.items())
-    items.sort(key=count_freq)
+    items.sort(key=)
     return items[:n]
 
 print(top_n({"a":3,"b":2,"c":1}, n=2)) # [('a', 3), ('b', 2)]
