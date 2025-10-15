@@ -48,8 +48,8 @@ print(tokenize("emoji 😀 не слово"))
 ```python
 def count_freq(tokens: list[str]) -> dict[str, int]:
     result = {}
-    for word in tokens:
-        result[word] = result.get(word, 0) + 1
+    for i in tokens:
+        result[i] = result.get(i, 0) + 1
     return result
 
 print(count_freq(["a","b","a","c","b","a"]))
@@ -57,8 +57,12 @@ print(count_freq(["bb", "aa", "bb", "aa", "cc"]))
 ```
 ![Картинка 3](../../images/lab03/img03.png)
 
-функция count_freq
+функция top_n
 ```python
-
+def top_n(freq: dict[str, int], n: int = 5) -> list[tuple[str, int]]:
+    items = list(freq.items())
+    items.sort()
+    return items[:n]
 ```
+![Картинка 4](../../images/lab03/img04.png)
 ### Задание В
