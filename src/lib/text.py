@@ -50,8 +50,23 @@ def count_freq(tokens: list[str]) -> dict[str, int]:
 
 def top_n(freq: dict[str, int], n: int = 5) -> list[tuple[str, int]]:
     items = list(freq.items())
-    items.sort()
-    return items[:n] 
+
+    # Сортировка пузырьком по убыванию частоты,
+    # а при равенстве — по алфавиту слова
+    for i in range(len(items)):
+        for j in range(len(items) - i - 1):
+            word1, count1 = items[j]
+            word2, count2 = items[j + 1]
+
+            # Сравниваем по частоте
+            if count1 < count2:
+                items[j], items[j + 1] = items[j + 1], items[j]
+            # Если частоты равны — сравниваем по алфавиту
+            elif count1 == count2 and word1 > word2:
+                items[j], items[j + 1] = items[j + 1], items[j]
+
+    return items[:n]
+ 
 
 print(top_n({"a":3,"b":2,"c":1}, n=2)) # [('a', 3), ('b', 2)]
 print(top_n({"aa":2,"bb":2,"cc":1}, n=2)) # [('aa', 2), ('bb', 2)]
