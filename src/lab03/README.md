@@ -77,6 +77,10 @@ def top_n(freq: dict[str, int], n: int = 5) -> list[tuple[str, int]]:
                 items[j], items[j + 1] = items[j + 1], items[j]
 
     return items[:n]
+
+print(top_n({"a":3,"b":2,"c":1}, n=2)) # [('a', 3), ('b', 2)]
+print(top_n({"aa":2,"bb":2,"cc":1}, n=2)) # [('aa', 2), ('bb', 2)]
+print(top_n({"x":5,"y":5,"a":5}, n=3))
 ```
 ![Картинка 4](../../images/lab03/img04.png)
 ### Задание В
