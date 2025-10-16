@@ -84,8 +84,10 @@ print(top_n({"x":5,"y":5,"a":5}, n=3))
 ```
 ![Картинка 4](../../images/lab03/img04.png)
 ### Задание В
+вводим в терминал строчку из слов и нажимаем control + D
 ```python
-import sys
+import sys, os # НАЖАТЬ control + D 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 from src.lib.text import normalize, tokenize, count_freq, top_n
 
 def main():
@@ -101,7 +103,7 @@ def main():
     # частоты
     freq = count_freq(tokens)
 
-    # топ-5
+    # топ 5
     top = top_n(freq, n=5)
 
     print(f"Всего слов: {len(tokens)}")
@@ -113,3 +115,4 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+![Картинка 5](../../images/lab03/img05.png)

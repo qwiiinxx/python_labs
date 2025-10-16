@@ -16,7 +16,7 @@ def main():
     # частоты
     freq = count_freq(tokens)
 
-    # топ-5
+    # топ 5
     top = top_n(freq, n=5)
 
     print(f"Всего слов: {len(tokens)}")
