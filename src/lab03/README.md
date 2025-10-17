@@ -20,7 +20,7 @@ print(normalize("  двойные   пробелы  ")) # "двойные про
 ![Картинка 1](../../images/lab03/img01.png)
 функция tokenize
 ```python
-def tokenize(text: str) -> list[str]: # 'hello, world'
+def tokenize(text: str) -> list[str]:
     result = []
     word = ''
     for i, w in enumerate(text):
@@ -62,7 +62,7 @@ print(count_freq(["bb", "aa", "bb", "aa", "cc"]))
 def top_n(freq: dict[str, int], n: int = 5) -> list[tuple[str, int]]:
     items = list(freq.items())
 
-    # Сортировка пузырьком по убыванию частоты,
+    # cортировка пузырьком по убыванию частоты,
     # а при равенстве — по алфавиту слова
     for i in range(len(items)):
         for j in range(len(items) - i - 1):
