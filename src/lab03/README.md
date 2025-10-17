@@ -1,4 +1,4 @@
-### Задание А
+## Задание А
 #### функция normalize
 ```python
 def normalize(text: str, *, casefold: bool = True, yo2e: bool = True) -> str:
@@ -66,6 +66,7 @@ print(count_freq(["bb", "aa", "bb", "aa", "cc"]))
 ```python
 def top_n(freq: dict[str, int], n: int = 5) -> list[tuple[str, int]]:
     items = list(freq.items())
+<<<<<<< HEAD
 
     # cортировка пузырьком по убыванию частоты,
     # а при равенстве — по алфавиту слова
@@ -81,14 +82,20 @@ def top_n(freq: dict[str, int], n: int = 5) -> list[tuple[str, int]]:
             elif count1 == count2 and word1 > word2:
                 items[j], items[j + 1] = items[j + 1], items[j]
 
+=======
+    items.sort(key=lambda x: (-x[1], x[0]))  # сначала по частоте, потом по слову
+>>>>>>> 03b9ebc (new)
     return items[:n]
 
 print(top_n({"a":3,"b":2,"c":1}, n=2)) # [('a', 3), ('b', 2)]
 print(top_n({"aa":2,"bb":2,"cc":1}, n=2)) # [('aa', 2), ('bb', 2)]
 print(top_n({"x":5,"y":5,"a":5}, n=3))
 ```
+
 ![Картинка 4](../../images/lab03/img04.png)
-### Задание В
+
+
+## Задание В
 вводим в терминал строчку из слов и нажимаем control + D
 ```python
 import sys, os # НАЖАТЬ control + D 
