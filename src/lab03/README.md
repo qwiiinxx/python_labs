@@ -44,7 +44,7 @@ print(tokenize("emoji 😀 не слово"))
 ```
 
 ![Картинка 2](../../images/lab03/img02.png)
-функция top_n
+функция count_freq
 ```python
 def count_freq(tokens: list[str]) -> dict[str, int]:
     result = {}
