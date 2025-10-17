@@ -44,12 +44,9 @@ print(tokenize("2025 год"))
 print(tokenize("emoji 😀 не слово"))
 ```
 ![Картинка 2](../../images/lab03/img02.png)
-<<<<<<< HEAD
-функция count_freq
-=======
+
 
 #### функция count_freq
->>>>>>> c7122c7 (n)
 ```python
 def count_freq(tokens: list[str]) -> dict[str, int]:
     result = {}
@@ -66,25 +63,7 @@ print(count_freq(["bb", "aa", "bb", "aa", "cc"]))
 ```python
 def top_n(freq: dict[str, int], n: int = 5) -> list[tuple[str, int]]:
     items = list(freq.items())
-<<<<<<< HEAD
-
-    # cортировка пузырьком по убыванию частоты,
-    # а при равенстве — по алфавиту слова
-    for i in range(len(items)):
-        for j in range(len(items) - i - 1):
-            word1, count1 = items[j]
-            word2, count2 = items[j + 1]
-
-            # Сравниваем по частоте
-            if count1 < count2:
-                items[j], items[j + 1] = items[j + 1], items[j]
-            # Если частоты равны — сравниваем по алфавиту
-            elif count1 == count2 and word1 > word2:
-                items[j], items[j + 1] = items[j + 1], items[j]
-
-=======
     items.sort(key=lambda x: (-x[1], x[0]))  # сначала по частоте, потом по слову
->>>>>>> 03b9ebc (new)
     return items[:n]
 
 print(top_n({"a":3,"b":2,"c":1}, n=2)) # [('a', 3), ('b', 2)]
