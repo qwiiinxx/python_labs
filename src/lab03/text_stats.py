@@ -4,7 +4,7 @@ from src.lib.text import normalize, tokenize, count_freq, top_n
 
 
 def main():
-    # читаем весь ввод (до EOF)
+    # читаем весь ввод до EOF
     text = sys.stdin.read()
 
     # нормализация
