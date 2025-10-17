@@ -18,7 +18,8 @@ print(normalize("Hello\r\nWorld")) # "hello world"
 print(normalize("  двойные   пробелы  ")) # "двойные пробелы"
 ```
 ![Картинка 1](../../images/lab03/img01.png)
-функция tokenize
+
+#### функция tokenize
 ```python
 def tokenize(text: str) -> list[str]:
     result = []
@@ -42,9 +43,13 @@ print(tokenize("по-настоящему круто"))
 print(tokenize("2025 год"))
 print(tokenize("emoji 😀 не слово"))
 ```
-
 ![Картинка 2](../../images/lab03/img02.png)
+<<<<<<< HEAD
 функция count_freq
+=======
+
+#### функция count_freq
+>>>>>>> c7122c7 (n)
 ```python
 def count_freq(tokens: list[str]) -> dict[str, int]:
     result = {}
@@ -57,7 +62,7 @@ print(count_freq(["bb", "aa", "bb", "aa", "cc"]))
 ```
 ![Картинка 3](../../images/lab03/img03.png)
 
-функция top_n
+#### функция top_n
 ```python
 def top_n(freq: dict[str, int], n: int = 5) -> list[tuple[str, int]]:
     items = list(freq.items())
