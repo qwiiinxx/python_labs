@@ -301,16 +301,17 @@ from typing import Iterable, Sequence
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
+# чтение файла целиком, но стоит читать построчно
 def read_text(path: str | Path, encoding: str = "utf-8") -> str:
     p = Path(__file__).parent / path  # путь относительно текущего файла
     if not p.exists(): # ошибка если файл не найден
         raise FileNotFoundError(f"файл {p} не найден")
-    return p.read_text(encoding=encoding) # чтение файла с любой кодировкой
+    return print(p.read_text(encoding=encoding)) # чтение файла с любой кодировкой и его вывод
 
 
 def ensure_parent_dir(path: str | Path) -> None:
-    p = Path(path)
-    p.parent.mkdir(parents=True, exist_ok=True)        
+    p = Path(path) # путь
+    p.parent.mkdir(parents=True, exist_ok=True) # создание родительской директории если ее нет   
 
 
 def write_csv(rows: list[tuple | list], path: str | Path, header: tuple[str, ...] | None = None) -> None:
@@ -327,12 +328,34 @@ def write_csv(rows: list[tuple | list], path: str | Path, header: tuple[str, ...
             raise ValueError(f"длина заголовков ({len(header)}) не совпадает с длиной строк {length}")
             
 
-    with p.open("w", newline="", encoding="utf-8") as f: # открыли 
-        writer = csv.writer(f)
+    with p.open("w", newline="", encoding="utf-8") as f: # открытие и запись csv
+        writer = csv.writer(f) 
         if header is not None:
             writer.writerow(header)
         writer.writerows(rows)
 ```
-создали csv файл
+
+* тест 1 
+
+в файле input.txt лежит строка, таблица не создана
+```python
+if __name__ == "__main__":
+    txt = read_text("../../data/lab04/input.txt")
+    write_csv([("word","count"),("test",3)], "data/check.csv")
+```
+вывелась строка из файла input.txt
+![Картинка 3](./images/lab04/img03.png)
+создали csv файл с таблицей
 ![Картинка 1](./images/lab04/img01.png)
 
+* тест 2 
+
+записываем в таблицу только заголовок
+```python
+if __name__ == "__main__":
+    txt = read_text("../../data/lab04/input.txt")
+    write_csv([("a","b")], "data/check.csv")
+```
+![Картинка 2](./images/lab04/img02.png)
+
+## Задание В

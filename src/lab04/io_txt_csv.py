@@ -1,6 +1,5 @@
 from pathlib import Path
 import csv
-from typing import Iterable, Sequence
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
@@ -8,7 +7,7 @@ def read_text(path: str | Path, encoding: str = "utf-8") -> str:
     p = Path(__file__).parent / path  # путь относительно текущего файла
     if not p.exists(): # ошибка если файл не найден
         raise FileNotFoundError(f"файл {p} не найден")
-    return p.read_text(encoding=encoding) # чтение файла с любой кодировкой
+    return print(p.read_text(encoding=encoding)) 
 
 
 def ensure_parent_dir(path: str | Path) -> None:
@@ -41,4 +40,4 @@ def write_csv(rows: list[tuple | list], path: str | Path, header: tuple[str, ...
 if __name__ == "__main__":
     # тесты писать прямо здесь
     txt = read_text("../../data/lab04/input.txt")  # должен вернуть строку
-    write_csv([("word","count"),("test",3)], "data/check.csv")  # создаст CSV
+    write_csv([("a","b")], "data/check.csv")  # создаст CSV
