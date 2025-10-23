@@ -1,66 +1,48 @@
 from pathlib import Path
 import sys, os
-import csv
-import argparse
 
-# импорт функций из lib/text.py
+# === ДОБАВЛЯЕМ КОРЕНЬ ПРОЕКТА В sys.path ===
+# Это нужно, чтобы можно было импортировать из src.*
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-from src.lib.text import normalize, tokenize, count_freq, top_n
+
+from src.lab04.io_txt_csv import read_text, write_csv
+from src.lib.text import normalize, tokenize, count_freq
 
 
-def read_text(path: Path, encoding: str = "utf-8") -> str:
-    """Считывает содержимое файла в одну строку."""
-    if not path.exists():
-        raise FileNotFoundError(f"Файл не найден: {path}")
-    return path.read_text(encoding=encoding)
+def main():
+    # Формируем пути относительно корня проекта
+    root = Path(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
+    input_path = root / "data" / "lab04" / "input.txt"
+    output_path = root / "data" / "lab04" / "report.csv"
 
+    # Проверяем существование входного файла
+    if not input_path.exists():
+        print(f"Файл не найден: {input_path}")
+        sys.exit(1)
 
-def write_csv(rows, path: Path, header=("word", "count")) -> None:
-    """Записывает данные в CSV с заголовком."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-        if header:
-            writer.writerow(header)
-        writer.writerows(rows)
+    # Читаем текст
+    text = read_text(input_path)
+    if not text.strip():
+        print("Пустой файл — создаю CSV только с заголовком.")
+        write_csv([], output_path, header=("word", "count"))
+        return
 
-
-def make_report(in_path: Path, out_path: Path, encoding: str = "utf-8") -> None:
-    """Основная логика: чтение, обработка, сохранение."""
-    # чтение текста
-    text = read_text(in_path, encoding)
-
-    # нормализация, токенизация, подсчёт частот
+    # Обрабатываем текст
     norm_text = normalize(text)
     tokens = tokenize(norm_text)
-    freq = count_freq(tokens)
+    freqs = count_freq(tokens)
 
-    # сортировка по условию: count ↓, word ↑
-    sorted_items = sorted(freq.items(), key=lambda x: (-x[1], x[0]))
+    # Сортируем результат по убыванию количества, затем по алфавиту
+    sorted_rows = sorted(freqs.items(), key=lambda x: (-x[1], x[0]))
 
-    # запись в CSV
-    if tokens:  # если текст не пуст
-        write_csv(sorted_items, out_path)
-    else:
-        write_csv([], out_path)  # только заголовок
+    # Пишем отчёт
+    write_csv(sorted_rows, output_path, header=("word", "count"))
 
-    # вывод резюме в консоль
+    # Печатаем краткий итог
     print(f"Всего слов: {len(tokens)}")
-    print(f"Уникальных слов: {len(freq)}")
-    print("Топ-5:")
-    for word, count in top_n(freq, 5):
-        print(f"{word}:{count}")
+    print(f"Уникальных слов: {len(freqs)}")
+    print("Топ-5:", sorted_rows[:5])
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Генерация отчёта по тексту")
-    parser.add_argument("--in", dest="in_path", default="data/input.txt", help="путь к входному файлу")
-    parser.add_argument("--out", dest="out_path", default="data/report.csv", help="путь к выходному файлу")
-    parser.add_argument("--encoding", default="utf-8", help="кодировка входного файла")
-    args = parser.parse_args()
-
-    try:
-        make_report(Path(args.in_path), Path(args.out_path), args.encoding)
-    except FileNotFoundError as e:
-        print(e)
-        sys.exit(1)
+    main()

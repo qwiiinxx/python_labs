@@ -7,7 +7,7 @@ def read_text(path: str | Path, encoding: str = "utf-8") -> str:
     p = Path(__file__).parent / path  # путь относительно текущего файла
     if not p.exists(): # ошибка если файл не найден
         raise FileNotFoundError(f"файл {p} не найден")
-    return print(p.read_text(encoding=encoding)) 
+    return p.read_text(encoding=encoding)
 
 
 def ensure_parent_dir(path: str | Path) -> None:
