@@ -294,30 +294,19 @@ if __name__ == "__main__":
 
 # Лабораторная 4
 ## Задание А
+## **read_text**
 ```python
-from pathlib import Path
-import csv
-from typing import Iterable, Sequence
-import sys, os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-
-# чтение файла целиком, но стоит читать построчно
 def read_text(path: str | Path, encoding: str = "utf-8") -> str:
-    p = Path(__file__).parent / path  # путь относительно текущего файла
-    if not p.exists(): # ошибка если файл не найден
+    p = Path(__file__).parent / path 
+    if not p.exists():
         raise FileNotFoundError(f"файл {p} не найден")
-    return print(p.read_text(encoding=encoding)) # чтение файла с любой кодировкой и его вывод
-
-
-def ensure_parent_dir(path: str | Path) -> None:
-    p = Path(path) # путь
-    p.parent.mkdir(parents=True, exist_ok=True) # создание родительской директории если ее нет   
-
-
+    return p.read_text(encoding=encoding)
+```
+## **write_csv**
+```python
 def write_csv(rows: list[tuple | list], path: str | Path, header: tuple[str, ...] | None = None) -> None:
     p = Path(path)
     
-    # проверка на одинаковую длину строк
     if rows:
         length = len(rows[0])
         for row in rows:
@@ -328,35 +317,41 @@ def write_csv(rows: list[tuple | list], path: str | Path, header: tuple[str, ...
             raise ValueError(f"длина заголовков ({len(header)}) не совпадает с длиной строк {length}")
             
 
-    with p.open("w", newline="", encoding="utf-8") as f: # открытие и запись csv
-        writer = csv.writer(f) 
+    with p.open("w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
         if header is not None:
             writer.writerow(header)
         writer.writerows(rows)
 ```
-
-* тест 1 
-
-в файле input.txt лежит строка, таблица не создана
+## **ensure_parent_dir**
 ```python
-if __name__ == "__main__":
-    txt = read_text("../../data/lab04/input.txt")
-    write_csv([("word","count"),("test",3)], "data/check.csv")
+def ensure_parent_dir(path: str | Path) -> None:
+    p = Path(path)
+    p.parent.mkdir(parents=True, exist_ok=True)
 ```
-вывелась строка из файла input.txt
-![Картинка 3](./images/lab04/img03.png)
-создали csv файл с таблицей
-![Картинка 1](./images/lab04/img01.png)
-
-* тест 2 
-
-записываем в таблицу только заголовок
+### тест функций № 1
 ```python
-if __name__ == "__main__":
-    txt = read_text("../../data/lab04/input.txt")
+from src.io_txt_csv import read_text, write_csv
+txt = read_text("data/input.txt")  # должен вернуть строку
+write_csv([("word","count"),("test",3)], "data/check.csv")  # создаст CSV
+```
+1) создался csv
+![Картинка 1](./images/lab04/img01.png)
+2)  запринтила строку, которую возвращает (для наглядности)
+![Картинка 3](./images/lab04/img03.png)
+### тест функций № 2
+```python
+from src.io_txt_csv import read_text, write_csv
+txt = read_text("../../data/lab04/input.txt")
     write_csv([("a","b")], "data/check.csv")
 ```
+создастся csv только с заголовками
 ![Картинка 2](./images/lab04/img02.png)
+### тест функции № 3
+``` input.txt ``` пустой -> возвращает **пустую** строку
+### файл очень большой
+- допускается читать целиком
+- в реале стоит читать построчно
 
 ## Задание В
 запуск через ```python3 -m src.lab04.text_report```
