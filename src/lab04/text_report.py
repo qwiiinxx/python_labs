@@ -1,9 +1,9 @@
 from pathlib import Path # запускать через python3 -m src.lab04.text_report
 import sys, os
 
-# # === ДОБАВЛЯЕМ КОРЕНЬ ПРОЕКТА В sys.path ===
-# # Это нужно, чтобы можно было импортировать из src.*
-# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
+# === ДОБАВЛЯЕМ КОРЕНЬ ПРОЕКТА В sys.path ===
+# Это нужно, чтобы можно было импортировать из src.*
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
 from src.lab04.io_txt_csv import read_text, write_csv
 from src.lib.text import normalize, tokenize, count_freq

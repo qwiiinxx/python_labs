@@ -399,5 +399,22 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-
+## Тест-кейсы:
+### A) вход ```data/input.txt```
+Консоль:
 ![Картинка 4](./images/lab04/img04.png)
+report.csv:
+![Картинка 5](./images/lab04/img05.png)
+
+### B) пустой файл
+пустой ```data/input.txt```
+консоль:
+![Картинка 6](./images/lab04/img06.png)
+report.csv:
+![Картинка 7](./images/lab04/img07.png)
+
+
+### C) Кодировка cp1251
+вход ```data/input.txt``` в **cp1251** с текстом ```"Привет"```
+вход через: ```python3 src/lab04/text_report.py --in data/input.txt --encoding cp1251```
+![Картинка 8](./images/lab04/img08.png)
