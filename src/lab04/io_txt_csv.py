@@ -27,7 +27,10 @@ def write_csv(rows: list[tuple | list], path: str | Path, header: tuple[str, ...
         
         if header is not None and len(header) != length:
             raise ValueError(f"длина заголовков ({len(header)}) не совпадает с длиной строк {length}")
-            
+        
+    # проверка на тип файла `input`
+    if p.suffix.lower() != ".txt":
+        raise ValueError(f"Ошибка: ожидается текстовый файл (.txt), а получен {p.name}")
 
     with p.open("w", newline="", encoding="utf-8") as f: # открыли 
         writer = csv.writer(f)
@@ -40,4 +43,4 @@ def write_csv(rows: list[tuple | list], path: str | Path, header: tuple[str, ...
 if __name__ == "__main__":
     # тесты писать прямо здесь
     txt = read_text("../../data/lab04/input.txt")  # должен вернуть строку
-    write_csv([("a","b")], "data/check.csv")  # создаст CSV
+    write_csv([("a","b")], "data/lab04/input.txt")  # создаст CSV
