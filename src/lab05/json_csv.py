@@ -9,16 +9,16 @@ def json_to_csv(json_path: str, csv_path: str) -> None:
 
     # проверки
     if not json_path.exists():
-        raise FileNotFoundError(f"Файл не найден: {json_path}")
+        raise FileNotFoundError(f"файл не найден")
     if json_path.suffix.lower() != ".json":
-        raise ValueError(f"Ошибка: ожидается JSON-файл, а получен {json_path.suffix}")
+        raise ValueError(f"ошибка: ожидается JSON-файл, а получен {json_path.suffix}")
 
     # читаем JSON
     with json_path.open(encoding="utf-8") as f:
         try:
             data = json.load(f)
         except json.JSONDecodeError as e:
-            raise ValueError(f"Ошибка чтения JSON: {e}")
+            raise ValueError(f"ошибка чтения json: {e}")
 
     # проверка содержимого
     if not data or not isinstance(data, list):
@@ -64,5 +64,7 @@ def csv_to_json(csv_path: str, json_path: str) -> None:
     with json_path.open("w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
-    
-    
+if __name__ == "__main__":
+    # json_to_csv("data/samples/people.json", "data/out/people_from_json.csv")
+    csv_to_json("data/samples/people.csv", "data/out/people_from_csv.json")
+    print("всё норм")

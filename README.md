@@ -421,3 +421,161 @@ report.csv:
 вход ```data/input.txt``` в **cp1251** с текстом ```"Привет"```
 вход через: ```python3 src/lab04/text_report.py --in data/input.txt --encoding cp1251```
 ![Картинка 8](./images/lab04/img08.png)
+
+
+
+# Лабораорная № 5
+## Задание А
+## `json_to_csv`
+```python
+def json_to_csv(json_path: str, csv_path: str) -> None:
+    json_path = Path(json_path)
+    csv_path = Path(csv_path)
+
+    # проверки
+    if not json_path.exists():
+        raise FileNotFoundError(f"файл не найден")
+    if json_path.suffix.lower() != ".json":
+        raise ValueError(f"ошибка: ожидается JSON-файл, а получен {json_path.suffix}")
+
+    # читаем JSON
+    with json_path.open(encoding="utf-8") as f:
+        try:
+            data = json.load(f)
+        except json.JSONDecodeError as e:
+            raise ValueError(f"ошибка чтения json: {e}")
+
+    # проверка содержимого
+    if not data or not isinstance(data, list):
+        raise ValueError("Пустой JSON или неподдерживаемая структура (ожидается список словарей)")
+    if not all(isinstance(item, dict) for item in data):
+        raise ValueError("Все элементы JSON должны быть словарями")
+
+    # определяем заголовки (ключи)
+    # можно отсортировать по первому объекту или по алфавиту
+    fieldnames = sorted({key for obj in data for key in obj.keys()})
+
+    # запись CSV
+    csv_path.parent.mkdir(parents=True, exist_ok=True)
+    with csv_path.open("w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in data:
+            writer.writerow(row)
+```
+### Тест № 1
+#### запись из JSON в CSV
+![Картинка 6](./images/lab05/img06.png)
+![Картинка 7](./images/lab05/img07.png)
+### Тест № 2
+#### неверный тип файла, пустой JSON 
+![Картинка 5](./images/lab05/img05.png)
+
+
+
+## `csv_to_json`
+```python
+def csv_to_json(csv_path: str, json_path: str) -> None:
+    csv_path = Path(csv_path)
+    json_path = Path(json_path)
+
+    # проверки
+    if not csv_path.exists():
+        raise FileNotFoundError(f"Файл не найден: {csv_path}")
+    if csv_path.suffix.lower() != ".csv":
+        raise ValueError(f"Ошибка: ожидается CSV-файл, а получен {csv_path.suffix}")
+
+    # читаем CSV
+    with csv_path.open(encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        if reader.fieldnames is None:
+            raise ValueError("CSV-файл не содержит заголовка")
+        data = list(reader)
+
+    if not data:
+        raise ValueError("Пустой CSV-файл")
+
+    # записываем JSON
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    with json_path.open("w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+```
+### Тест № 1
+## запись из CSV в JSON
+![Картинка 9](./images/lab05/img09.png)
+=
+![Картинка 9](./images/lab05/img08.png)
+
+### Тест № 2
+#### пустой CSV 
+![Картинка 10](./images/lab05/img10.png)
+
+### Тест № 3
+#### отсутствующий CSV файл
+![Картинка 11](./images/lab05/img11.png)
+## Задание В
+## `csv_to_xlsx`
+
+```python
+def csv_to_xlsx(csv_path: str, xlsx_path: str) -> None:
+    csv_path = Path(csv_path)
+    xlsx_path = Path(xlsx_path)
+
+    # проверка входного файла
+    if not csv_path.exists():
+        raise FileNotFoundError(f"файл не найден: {csv_path}")
+    if csv_path.suffix.lower() != ".csv":
+        raise ValueError("ошибка: ожидается входной файл с расширением .csv")
+
+    # проверка выходного файла
+    if xlsx_path.suffix.lower() != ".xlsx":
+        raise ValueError("ошибка: выходной файл должен иметь расширение .xlsx")
+
+    # чтение CSV
+    with csv_path.open(encoding="utf-8") as f:
+        reader = csv.reader(f)
+        rows = list(reader)
+
+    if not rows:
+        raise ValueError("ошибка: CSV пустой")
+    if not any(rows[0]):
+        raise ValueError("ошибка: CSV не содержит заголовков")
+
+    # Создание Excel-файла
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Sheet1"
+
+    for row in rows:
+        ws.append(row)
+
+    # автоширина колонок
+    for column_cells in ws.columns:
+        max_length = 0
+        column_letter = column_cells[0].column_letter  # A, B, C, ...
+        for cell in column_cells:
+            value = str(cell.value) if cell.value is not None else ""
+            max_length = max(max_length, len(value))
+        adjusted_width = max(max_length + 2, 8)  # минимум 8 символов
+        ws.column_dimensions[column_letter].width = adjusted_width
+
+    os.makedirs(os.path.dirname(xlsx_path), exist_ok=True)
+    # сохранение
+    wb.save(xlsx_path)
+
+if __name__ == "__main__":
+    csv_to_xlsx("data/samples/cities.csv", "data/out/cities.xlsx")
+    print("всё норм")
+```
+## Тест № 1
+#### когда всё работает, имеем cities.csv 
+![Картинка 2](./images/lab05/img02.png) 
+#### получили XLSX с таблицей ![Картинка 1](./images/lab05/img01.png)
+
+## Тест № 2
+#### когда пустой CSV
+![Картинка 3](./images/lab05/img03.png)
+
+## Тест № 3
+#### когда файл отсутсвует
+![Картинка 4](./images/lab05/img04.png)
