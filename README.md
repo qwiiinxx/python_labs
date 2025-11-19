@@ -582,8 +582,9 @@ if __name__ == "__main__":
 
 
 # Лабораторная № 6
-## Модуль cli_text.py
-### stats / cat
+## **Модуль argparse**
+### 
+### Подкоманды **stats** / **cat**
 ```python
 import argparse
 from src.lib.text import normalize, tokenize, count_freq, top_n
@@ -631,6 +632,7 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+## Примеры:
 ### запуск **stats** через ```python3 -m src.lab06.cli_text stats --input data/samples/test_stats.txt --top 5```
 
 терминал:
@@ -642,3 +644,18 @@ if __name__ == "__main__":
 терминал: 
 ![Картинка 2](./images/lab06/img02.png)
 ---
+
+#### Каждую команду можно вызвать с --help
+### ```python3 -m src.lab06.cli_text stats --help```
+![Каптинка 3](./images/lab06/img03.png)
+
+### ```python3 -m src.lab06.cli_text cat --help```
+![Каптинка 3](./images/lab06/img04.png)
+
+
+---
+#### Пустой входной файл ----> parser.error(...)
+![Картинка 6](./images/lab06/img05.png)
+---
+#### Отсутствие входного файла ----> parser.error(...)
+![Картинка 5](./images/lab06/img06.png)

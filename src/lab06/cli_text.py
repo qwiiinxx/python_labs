@@ -20,8 +20,13 @@ def main():
     args = parser.parse_args()
 
     if args.command == "stats":
-        with open(args.input, "r", encoding="utf-8") as f:
-            text = f.read()
+        try:
+            with open(args.input, "r", encoding="utf-8") as f:
+                text = f.read()
+        except FileNotFoundError:
+            parser.error(f"Файл не найден")
+        if not text:
+            parser.error("Входной файл пуст")
 
         norm_text = normalize(text)
         tokens = tokenize(norm_text)
@@ -35,12 +40,17 @@ def main():
             print(f"{word}:{count}")
 
     elif args.command == "cat":
-        with open(args.input, "r", encoding="utf-8") as f:
-            for i, line in enumerate(f, start=1):
-                if args.n:
-                    print(f"{i}\t{line}", end="")
-                else:
-                    print(line, end="")
-
+        try:
+            with open(args.input, "r", encoding="utf-8") as f:
+                for i, line in enumerate(f, start=1):
+                    if args.n:
+                        print(f"{i}\t{line}", end="")
+                    else:
+                        print(line, end="")
+        except FileNotFoundError:
+            parser.error(f"Файл не найден")
+    elif args.command is None:
+        parser.error("Не указана подкоманда")
+        
 if __name__ == "__main__":
     main()
