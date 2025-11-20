@@ -1,8 +1,27 @@
-[{"name": "Vanya",
+[
+  {
+    "name": "Alice",
     "age": 22,
-    "id": 1111}, {"name": null,
-    "age": 21,
-    "id": 1112}, {"name": "oleg",
+    "city": "SPB"
+  },
+  {
+    "name": "Bob",
     "age": 25,
-    "id": 2222}
+    "city": "Moscow"
+  },
+  {
+    "name": "Carlos",
+    "age": 30,
+    "city": "Kazan"
+  },
+  {
+    "name": "Dana",
+    "age": 21,
+    "city": "SPB"
+  },
+  {
+    "name": "Andrey",
+    "age": 27,
+    "city": "Novosibirsk"
+  }
 ]

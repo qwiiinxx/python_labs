@@ -1,4 +1,6 @@
-age,id,name
-22,1111,Vanya
-21,1112,Petya
-25,2222,oleg
+age,city,name
+22,SPB,Alice
+25,Moscow,Bob
+30,Kazan,Carlos
+21,SPB,Dana
+27,Novosibirsk,Andrey
