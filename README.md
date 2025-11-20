@@ -589,9 +589,7 @@ if __name__ == "__main__":
 import argparse
 from src.lib.text import normalize, tokenize, count_freq, top_n
 
-# запуск через  'python3 -m src.lab06.cli_text stats --input data/samples/test_stats.txt --top 5'
 def main():
-
     parser = argparse.ArgumentParser(description="Пример CLI")
     subparsers = parser.add_subparsers(dest="command")
 
@@ -637,6 +635,7 @@ def main():
                         print(line, end="")
         except FileNotFoundError:
             parser.error(f"Файл не найден")
+            
     elif args.command is None:
         parser.error("Не указана подкоманда")
         
@@ -676,8 +675,6 @@ if __name__ == "__main__":
 import argparse
 from src.lab05.json_csv import json_to_csv, csv_to_json
 from src.lab05.csv_xlsx import csv_to_xlsx
-
-
 
 
 def main():
@@ -721,6 +718,12 @@ def main():
             print("Конвертация завершена")
         except FileNotFoundError:
             parser.error("Входной файл не найден")
+
+    elif args.command is None:
+        parser.error("Не указана подкоманда")
+
+    elif args.command not in ["json2csv", "csv2json", "csv2xlsx"]:
+        parser.error("Неизвестная подкоманда")
         
 if __name__ == "__main__":
     main()
