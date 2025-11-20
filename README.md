@@ -733,7 +733,16 @@ if __name__ == "__main__":
 ![Картинка 8](./images/lab06/img08.png)
 ---
 ### Запуск **csv2xlsx** через ```python3 -m src.lab06.cli_convert csv2xlsx --input data/samples/cities.csv --output data/out/cities.xlsx```
+терминал:
 ![Картинка 11](./images/lab06/img11.png)
+таблица:
+![Картинка 12](./images/lab06/img12.png)
 
-### Проверка --help
+### Проверка --help глобально
 ![Картинка 10](./images/lab06/img10.png)
+### Проверка --help json2csv
+![Картинка 13](./images/lab06/img13.png)
+### Проверка --help csv2json
+![Картинка 14](./images/lab06/img14.png)
+### Проверка --help csv2xlsx
+![Картинка 15](./images/lab06/img15.png)

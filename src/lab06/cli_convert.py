@@ -6,7 +6,7 @@ from src.lab05.csv_xlsx import csv_to_xlsx
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Конвертация между json и csv")
+    parser = argparse.ArgumentParser(description="Конвертация между json, csv и xlsx")
     subparsers = parser.add_subparsers(dest="command")
 
     # подкоманда json2csv
@@ -39,6 +39,7 @@ def main():
             print("Конвертация завершена")
         except FileNotFoundError:
             parser.error("Входной файл не найден")
+
     elif args.command == "csv2xlsx":
         try:
             csv_to_xlsx(args.input, args.output)
