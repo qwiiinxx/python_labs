@@ -49,8 +49,6 @@ def main():
                         print(line, end="")
         except FileNotFoundError:
             parser.error(f"Файл не найден")
-    elif args.command is None:
-        parser.error("Не указана подкоманда")
         
 if __name__ == "__main__":
     main()

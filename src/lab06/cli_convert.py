@@ -4,7 +4,6 @@ from src.lab05.csv_xlsx import csv_to_xlsx
 
 
 
-
 def main():
     parser = argparse.ArgumentParser(description="Конвертация между json, csv и xlsx")
     subparsers = parser.add_subparsers(dest="command")
@@ -46,9 +45,6 @@ def main():
             print("Конвертация завершена")
         except FileNotFoundError:
             parser.error("Входной файл не найден")
-
-    elif args.command is None:
-        parser.error("Не указана подкоманда")
 
     elif args.command not in ["json2csv", "csv2json", "csv2xlsx"]:
         parser.error("Неизвестная подкоманда")

@@ -635,9 +635,6 @@ def main():
                         print(line, end="")
         except FileNotFoundError:
             parser.error(f"Файл не найден")
-            
-    elif args.command is None:
-        parser.error("Не указана подкоманда")
         
 if __name__ == "__main__":
     main()
@@ -718,9 +715,6 @@ def main():
             print("Конвертация завершена")
         except FileNotFoundError:
             parser.error("Входной файл не найден")
-
-    elif args.command is None:
-        parser.error("Не указана подкоманда")
 
     elif args.command not in ["json2csv", "csv2json", "csv2xlsx"]:
         parser.error("Неизвестная подкоманда")
