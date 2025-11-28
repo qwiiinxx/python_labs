@@ -244,3 +244,6 @@ def test_csv_to_json_only_header(tmp_path: Path):
         csv_to_json(str(src), str(dst))
 ```
 ![Картинка 8](../../images/lab07/img08.png)
+
+### В конце ` black .`
+![Картинка 9](../../images/lab07/img09.png)

@@ -12,7 +12,7 @@ dependencies = [
     "openpyxl>=3.1",
 ]
 
-# ====== DEV dependencies ======
+# DEV
 # устанавливаются через:   pip install .[dev]
 [project.optional-dependencies]
 dev = [
