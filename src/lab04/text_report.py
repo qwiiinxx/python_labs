@@ -1,4 +1,4 @@
-from pathlib import Path # запускать через python3 -m src.lab04.text_report
+from pathlib import Path  # запускать через python3 -m src.lab04.text_report
 import sys, os
 
 # === ДОБАВЛЯЕМ КОРЕНЬ ПРОЕКТА В sys.path ===

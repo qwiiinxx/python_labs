@@ -1,4 +1,5 @@
-import sys, os # НАЖАТЬ control + D 
+import sys, os  # НАЖАТЬ control + D
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 from src.lib.text import normalize, tokenize, count_freq, top_n
 
@@ -24,6 +25,7 @@ def main():
     print("Топ-5:")
     for word, count in top:
         print(f"{word}:{count}")
+
 
 if __name__ == "__main__":
     main()

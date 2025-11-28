@@ -3,6 +3,7 @@ import csv
 from openpyxl import Workbook
 import os
 
+
 def csv_to_xlsx(csv_path: str, xlsx_path: str) -> None:
     csv_path = Path(csv_path)
     xlsx_path = Path(xlsx_path)
@@ -48,6 +49,7 @@ def csv_to_xlsx(csv_path: str, xlsx_path: str) -> None:
     os.makedirs(os.path.dirname(xlsx_path), exist_ok=True)
     # сохранение
     wb.save(xlsx_path)
+
 
 if __name__ == "__main__":
     csv_to_xlsx("data/samples/cities.csv", "data/out/cities.xlsx")

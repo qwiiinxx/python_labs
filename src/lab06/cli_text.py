@@ -1,6 +1,7 @@
 import argparse
 from src.lib.text import normalize, tokenize, count_freq, top_n
 
+
 # запуск через  'python3 -m src.lab06.cli_text stats --input data/samples/test_stats.txt --top 5'
 def main():
 
@@ -49,6 +50,7 @@ def main():
                         print(line, end="")
         except FileNotFoundError:
             parser.error(f"Файл не найден")
-        
+
+
 if __name__ == "__main__":
     main()

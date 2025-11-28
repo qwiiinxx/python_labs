@@ -8,9 +8,9 @@ for i in range(len(line)):
 else:
     exit()
 
-for i in range(len(line) -1):
+for i in range(len(line) - 1):
     if line[i].isdigit():
-        second_w = i+1
+        second_w = i + 1
         break
 else:
     exit()
@@ -21,8 +21,8 @@ real_word = []
 pos = first_w
 while pos < len(line):
     real_word.append(line[pos])
-    if line[pos] == '.':
+    if line[pos] == ".":
         break
     pos += interval
 
-print(''.join(real_word))
+print("".join(real_word))
