@@ -120,7 +120,7 @@ def test_csv_to_json_roundtrip(tmp_path: Path):
 ![Картинка 5](../../images/lab07/img05.png)
 ---
 ## Негативные сценарии
-### Негативные тесты для `csv_to_json`
+### Негативные тесты для `json_to_csv`
 ```python
 def test_json_to_csv_file_not_found(tmp_path: Path):
     """Несуществующий JSON файл, должен вызывать FileNotFoundError"""
