@@ -118,62 +118,126 @@ def test_csv_to_json_roundtrip(tmp_path: Path):
     assert rows == data
 ```
 ![Картинка 5](../../images/lab07/img05.png)
-
 ---
+## Негативные сценарии
+### Негативные тесты для `csv_to_json`
+```python
+def test_json_to_csv_file_not_found(tmp_path: Path):
+    """Несуществующий JSON файл, должен вызывать FileNotFoundError"""
+    non_existent = tmp_path / "nonexistent.json"
+    dst = tmp_path / "output.csv"
+    
+    with pytest.raises(FileNotFoundError, match="файл не найден"):
+        json_to_csv(str(non_existent), str(dst))
 
-### Негативные тесты для `json_to_csv` и `csv_to_json`
 
-#### Выполненные задачи
-**2. Добавлены негативные тесты для `json_to_csv`:**
-   - `test_json_to_csv_file_not_found` - проверка `FileNotFoundError` при несуществующем файле
-   - `test_json_to_csv_wrong_extension` - проверка `ValueError` при неправильном расширении
-   - `test_json_to_csv_empty_file` - проверка `ValueError` при пустом файле
-   - `test_json_to_csv_invalid_json` - проверка `ValueError` при некорректном JSON
-   - `test_json_to_csv_empty_list` - проверка `ValueError` при пустом списке в JSON
-   - `test_json_to_csv_not_list` - проверка `ValueError` когда JSON не является списком
-   - `test_json_to_csv_not_dicts` - проверка `ValueError` когда элементы не являются словарями
+def test_json_to_csv_wrong_extension(tmp_path: Path):
+    """Неправильное расширение файла, должно вызывать ValueError"""
+    src = tmp_path / "data.txt"
+    dst = tmp_path / "output.csv"
+    src.write_text('{"test": "data"}', encoding="utf-8")
+    
+    with pytest.raises(ValueError, match="ожидается JSON-файл"):
+        json_to_csv(str(src), str(dst))
 
-**3. Негативные тесты для `csv_to_json`:**
-   - `test_csv_to_json_file_not_found` - проверка `FileNotFoundError` при несуществующем файле
-   - `test_csv_to_json_wrong_extension` - проверка `ValueError` при неправильном расширении
-   - `test_csv_to_json_empty_file` - проверка `ValueError` при пустом файле
-   - `test_csv_to_json_no_header` - проверка `ValueError` при CSV только с одной строкой данных
-   - `test_csv_to_json_only_header` - проверка `ValueError` при CSV только с заголовком без данных
 
-**4. Использованные инструменты:**
-   - Фикстура `tmp_path` из pytest для работы с временными файлами
-   - `pytest.raises()` для проверки выброса исключений
-   - Параметр `match` для проверки текста сообщения об ошибке
+def test_json_to_csv_empty_file(tmp_path: Path):
+    """Пустой JSON файл, должен вызывать ValueError"""
+    src = tmp_path / "empty.json"
+    dst = tmp_path / "output.csv"
+    src.write_text("", encoding="utf-8")
+    
+    with pytest.raises(ValueError, match="ошибка чтения json"):
+        json_to_csv(str(src), str(dst))
 
-#### Результаты тестирования
 
-**Запуск тестов:**
-```bash
-pytest -v tests/test_json_csv.py
+def test_json_to_csv_invalid_json(tmp_path: Path):
+    """Некорректный JSON, должен вызывать ValueError"""
+    src = tmp_path / "invalid.json"
+    dst = tmp_path / "output.csv"
+    src.write_text("{ invalid json }", encoding="utf-8")
+    
+    with pytest.raises(ValueError, match="ошибка чтения json"):
+        json_to_csv(str(src), str(dst))
+
+
+def test_json_to_csv_empty_list(tmp_path: Path):
+    """Пустой список в JSON, должен вызывать ValueError"""
+    src = tmp_path / "empty_list.json"
+    dst = tmp_path / "output.csv"
+    src.write_text("[]", encoding="utf-8")
+    
+    with pytest.raises(ValueError, match="Пустой JSON"):
+        json_to_csv(str(src), str(dst))
+
+
+def test_json_to_csv_not_list(tmp_path: Path):
+    """JSON не является списком, должен вызывать ValueError"""
+    src = tmp_path / "not_list.json"
+    dst = tmp_path / "output.csv"
+    src.write_text('{"key": "value"}', encoding="utf-8")
+    
+    with pytest.raises(ValueError, match="Пустой JSON или неподдерживаемая структура"):
+        json_to_csv(str(src), str(dst))
+
+
+def test_json_to_csv_not_dicts(tmp_path: Path):
+    """Элементы JSON не являются словарями, должны вызывать ValueError"""
+    src = tmp_path / "not_dicts.json"
+    dst = tmp_path / "output.csv"
+    src.write_text('[1, 2, 3]', encoding="utf-8")
+    
+    with pytest.raises(ValueError, match="Все элементы JSON должны быть словарями"):
+        json_to_csv(str(src), str(dst))
+
 ```
+### Негативные тесты для `csv_to_json`
+```python
+def test_csv_to_json_file_not_found(tmp_path: Path):
+    """Несуществующий CSV файл, должен вызывать FileNotFoundError"""
+    non_existent = tmp_path / "nonexistent.csv"
+    dst = tmp_path / "output.json"
+    
+    with pytest.raises(FileNotFoundError, match="Файл не найден"):
+        csv_to_json(str(non_existent), str(dst))
 
-**Результат:**
+
+def test_csv_to_json_wrong_extension(tmp_path: Path):
+    """Неправильное расширение файла, должно вызывать ValueError"""
+    src = tmp_path / "data.txt"
+    dst = tmp_path / "output.json"
+    src.write_text("name,age\nAlice,22", encoding="utf-8")
+    
+    with pytest.raises(ValueError, match="ожидается CSV-файл"):
+        csv_to_json(str(src), str(dst))
+
+
+def test_csv_to_json_empty_file(tmp_path: Path):
+    """Пустой CSV файл, должен вызывать ValueError"""
+    src = tmp_path / "empty.csv"
+    dst = tmp_path / "output.json"
+    src.write_text("", encoding="utf-8")
+    
+    with pytest.raises(ValueError, match="CSV-файл не содержит заголовка"):
+        csv_to_json(str(src), str(dst))
+
+
+def test_csv_to_json_no_header(tmp_path: Path):
+    """CSV только с одной строкой данных (без заголовка), должен вызывать ValueError"""
+    src = tmp_path / "no_header.csv"
+    dst = tmp_path / "output.json"
+    src.write_text("Alice,22", encoding="utf-8")
+    
+    with pytest.raises(ValueError, match="Пустой CSV-файл"):
+        csv_to_json(str(src), str(dst))
+
+
+def test_csv_to_json_only_header(tmp_path: Path):
+    """CSV только с заголовком (без данных), должен вызывать ValueError"""
+    src = tmp_path / "only_header.csv"
+    dst = tmp_path / "output.json"
+    src.write_text("name,age", encoding="utf-8")
+    
+    with pytest.raises(ValueError, match="Пустой CSV-файл"):
+        csv_to_json(str(src), str(dst))
 ```
-============================= test session starts ==============================
-platform darwin -- Python 3.13.7, pytest-9.0.1, pluggy-1.6.0
-collected 14 items
-
-tests/test_json_csv.py ..............                                    [100%]
-
-============================== 14 passed in 0.02s ==============================
-```
-
-**Статистика:**
-- Всего тестов: **14**
-- Позитивных тестов: **2** (уже существовали)
-- Негативных тестов: **12** (добавлено)
-- Успешно пройдено: **14/14** (100%)
-
-**Проверка исключений:** Использован контекстный менеджер `pytest.raises()` с параметром `match` для проверки не только типа исключения, но и содержания сообщения об ошибке.
-
-**Покрытие граничных случаев:** Тесты покрывают различные граничные случаи:
-   - Отсутствие файла
-   - Пустые файлы
-   - Некорректные форматы данных
-   - Неправильные структуры данных
-   - Неправильные расширения файлов

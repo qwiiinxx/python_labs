@@ -59,7 +59,7 @@ def test_csv_to_json_roundtrip(tmp_path: Path):
 # Негативные тесты для json_to_csv
 
 def test_json_to_csv_file_not_found(tmp_path: Path):
-    """Тест: несуществующий JSON файл должен вызывать FileNotFoundError"""
+    """Несуществующий JSON файл, должен вызывать FileNotFoundError"""
     non_existent = tmp_path / "nonexistent.json"
     dst = tmp_path / "output.csv"
     
@@ -68,7 +68,7 @@ def test_json_to_csv_file_not_found(tmp_path: Path):
 
 
 def test_json_to_csv_wrong_extension(tmp_path: Path):
-    """Тест: неправильное расширение файла должно вызывать ValueError"""
+    """Неправильное расширение файла, должно вызывать ValueError"""
     src = tmp_path / "data.txt"
     dst = tmp_path / "output.csv"
     src.write_text('{"test": "data"}', encoding="utf-8")
@@ -78,7 +78,7 @@ def test_json_to_csv_wrong_extension(tmp_path: Path):
 
 
 def test_json_to_csv_empty_file(tmp_path: Path):
-    """Тест: пустой JSON файл должен вызывать ValueError"""
+    """Пустой JSON файл, должен вызывать ValueError"""
     src = tmp_path / "empty.json"
     dst = tmp_path / "output.csv"
     src.write_text("", encoding="utf-8")
@@ -88,7 +88,7 @@ def test_json_to_csv_empty_file(tmp_path: Path):
 
 
 def test_json_to_csv_invalid_json(tmp_path: Path):
-    """Тест: некорректный JSON должен вызывать ValueError"""
+    """Некорректный JSON, должен вызывать ValueError"""
     src = tmp_path / "invalid.json"
     dst = tmp_path / "output.csv"
     src.write_text("{ invalid json }", encoding="utf-8")
@@ -98,7 +98,7 @@ def test_json_to_csv_invalid_json(tmp_path: Path):
 
 
 def test_json_to_csv_empty_list(tmp_path: Path):
-    """Тест: пустой список в JSON должен вызывать ValueError"""
+    """Пустой список в JSON, должен вызывать ValueError"""
     src = tmp_path / "empty_list.json"
     dst = tmp_path / "output.csv"
     src.write_text("[]", encoding="utf-8")
@@ -108,17 +108,17 @@ def test_json_to_csv_empty_list(tmp_path: Path):
 
 
 def test_json_to_csv_not_list(tmp_path: Path):
-    """Тест: JSON не является списком должен вызывать ValueError"""
+    """JSON не является списком, должен вызывать ValueError"""
     src = tmp_path / "not_list.json"
     dst = tmp_path / "output.csv"
     src.write_text('{"key": "value"}', encoding="utf-8")
     
-    with pytest.raises(ValueError, match="Пустой JSON"):
+    with pytest.raises(ValueError, match="Пустой JSON или неподдерживаемая структура"):
         json_to_csv(str(src), str(dst))
 
 
 def test_json_to_csv_not_dicts(tmp_path: Path):
-    """Тест: элементы JSON не являются словарями должны вызывать ValueError"""
+    """Элементы JSON не являются словарями, должны вызывать ValueError"""
     src = tmp_path / "not_dicts.json"
     dst = tmp_path / "output.csv"
     src.write_text('[1, 2, 3]', encoding="utf-8")
@@ -130,7 +130,7 @@ def test_json_to_csv_not_dicts(tmp_path: Path):
 # Негативные тесты для csv_to_json
 
 def test_csv_to_json_file_not_found(tmp_path: Path):
-    """Тест: несуществующий CSV файл должен вызывать FileNotFoundError"""
+    """Несуществующий CSV файл, должен вызывать FileNotFoundError"""
     non_existent = tmp_path / "nonexistent.csv"
     dst = tmp_path / "output.json"
     
@@ -139,7 +139,7 @@ def test_csv_to_json_file_not_found(tmp_path: Path):
 
 
 def test_csv_to_json_wrong_extension(tmp_path: Path):
-    """Тест: неправильное расширение файла должно вызывать ValueError"""
+    """Неправильное расширение файла, должно вызывать ValueError"""
     src = tmp_path / "data.txt"
     dst = tmp_path / "output.json"
     src.write_text("name,age\nAlice,22", encoding="utf-8")
@@ -149,7 +149,7 @@ def test_csv_to_json_wrong_extension(tmp_path: Path):
 
 
 def test_csv_to_json_empty_file(tmp_path: Path):
-    """Тест: пустой CSV файл должен вызывать ValueError"""
+    """Пустой CSV файл, должен вызывать ValueError"""
     src = tmp_path / "empty.csv"
     dst = tmp_path / "output.json"
     src.write_text("", encoding="utf-8")
@@ -159,7 +159,7 @@ def test_csv_to_json_empty_file(tmp_path: Path):
 
 
 def test_csv_to_json_no_header(tmp_path: Path):
-    """Тест: CSV только с одной строкой данных (без заголовка) должен вызывать ValueError"""
+    """CSV только с одной строкой данных (без заголовка), должен вызывать ValueError"""
     src = tmp_path / "no_header.csv"
     dst = tmp_path / "output.json"
     # Если в CSV только одна строка данных без заголовка, 
@@ -171,7 +171,7 @@ def test_csv_to_json_no_header(tmp_path: Path):
 
 
 def test_csv_to_json_only_header(tmp_path: Path):
-    """Тест: CSV только с заголовком (без данных) должен вызывать ValueError"""
+    """CSV только с заголовком (без данных), должен вызывать ValueError"""
     src = tmp_path / "only_header.csv"
     dst = tmp_path / "output.json"
     src.write_text("name,age", encoding="utf-8")
