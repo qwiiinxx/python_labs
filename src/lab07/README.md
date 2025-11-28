@@ -191,6 +191,8 @@ def test_json_to_csv_not_dicts(tmp_path: Path):
         json_to_csv(str(src), str(dst))
 
 ```
+![Картинка 7](../../images/lab07/img07.png)
+
 ### Негативные тесты для `csv_to_json`
 ```python
 def test_csv_to_json_file_not_found(tmp_path: Path):
@@ -241,3 +243,4 @@ def test_csv_to_json_only_header(tmp_path: Path):
     with pytest.raises(ValueError, match="Пустой CSV-файл"):
         csv_to_json(str(src), str(dst))
 ```
+![Картинка 8](../../images/lab07/img08.png)
