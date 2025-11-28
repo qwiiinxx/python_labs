@@ -1,7 +1,7 @@
 [project]
 name = "python_labs"
 version = "1.0.0"
-description = "Лабораторная работа №7 — тестирование и конвертация файлов"
+description = "Лабораторная работа №7 — тестирование и стиль"
 authors = [
     { name = "Aleksandra" }
 ]
@@ -12,7 +12,7 @@ dependencies = [
     "openpyxl>=3.1",
 ]
 
-# DEV
+# ===== DEV =====
 # устанавливаются через:   pip install .[dev]
 [project.optional-dependencies]
 dev = [
