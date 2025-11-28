@@ -5,6 +5,13 @@ def normalize(text: str, *, casefold: bool = True, yo2e: bool = True) -> str:
     
     if yo2e:
         s = s.replace('ё', 'е').replace('Ё', 'е')
+        
+    # ← NEW: обработка двухслэшевых "переносов"
+    s = (
+        s.replace("\\n", " ")
+         .replace("\\t", " ")
+         .replace("\\r", " ")
+    )
 
     s = " ".join(s.split())
     return s

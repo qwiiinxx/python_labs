@@ -1,0 +1,48 @@
+[project]
+name = "python_labs"
+version = "1.0.0"
+description = "Лабораторная работа №7 — тестирование и конвертация файлов"
+authors = [
+    { name = "Aleksandra" }
+]
+requires-python = ">=3.10"
+
+
+dependencies = [
+    "openpyxl>=3.1",
+]
+
+# ====== DEV dependencies ======
+# устанавливаются через:   pip install .[dev]
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "ruff>=0.1",
+    "black>=23.0",
+]
+
+# ===== Pytest Configuration =====
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
+
+pythonpath = [
+    "src"
+]
+
+addopts = "-q --disable-warnings --maxfail=1"
+
+# ===== Ruff (линтер) =====
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.format]
+quote-style = "double"
+
+# ===== Black (форматер) =====
+[tool.black]
+line-length = 100
+target-version = ["py310"]
