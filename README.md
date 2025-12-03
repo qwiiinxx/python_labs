@@ -744,3 +744,8 @@ if __name__ == "__main__":
 ![Картинка 14](./images/lab06/img14.png)
 ### Проверка --help csv2xlsx
 ![Картинка 15](./images/lab06/img15.png)
+
+# Лабраторная № 7
+## Пути к лабе: `src/lab07/README.md`
+
+# Лабораорная № 8
