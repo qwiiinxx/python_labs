@@ -48,8 +48,10 @@ def students_from_json(path: str | Path) -> List[Student]:
 
 if __name__ == "__main__":
     
-    students_output = students_from_json("data/lab08/students_output.json")
-    for student in students_output:
+    # Читаем студентов из входного файла
+    students = students_from_json("data/lab08/students_input.json")
+    for student in students:
         print(student)
-    students_to_json(students_output, "data/lab08/students_input.json")
+    # Сохраняем студентов в выходной файл
+    students_to_json(students, "data/lab08/students_output.json")
     print("students_output.json created!")

@@ -43,17 +43,14 @@ class Student:
 
 Метод `age()` использует `date.today()` и дату рождения и возвращает количество **полных лет**.
 
-Методы `to_dict()` / `from_dict()` позволяют преобразовывать объект в словарь и обратно,
-что удобно для JSON‑сериализации.
+Методы `to_dict()` / `from_dict()` позволяют преобразовывать объект в словарь и обратно.
 
 Метод `__str__()` возвращает строку вида:
 
 ```text
 Иванов Иван Иванович (гр. SE-01), GPA 4.25, 20 лет
 ```
-
 ---
-
 ### Модуль `serialize.py`
 
 ```python
@@ -70,12 +67,15 @@ def students_from_json(path: str | Path) -> list[Student]:
     # чтение JSON-файла и создание списка Student
     ...
 
+# вызов функций
 if __name__ == "__main__":
     
-    students_output = students_from_json("data/lab08/students_output.json")
-    for student in students_output:
+    # читаем студентов из входного файла
+    students = students_from_json("data/lab08/students_input.json")
+    for student in students:
         print(student)
-    students_to_json(students_output, "data/lab08/students_input.json")
+    # сохраняем студентов в выходной файл
+    students_to_json(students, "data/lab08/students_output.json")
     print("students_output.json created!")
 ```
 
@@ -86,76 +86,25 @@ if __name__ == "__main__":
 
 ---
 
-### Примеры JSON‑файлов
-
-`data/lab08/students_input.json`:
-
-```json
-[
-  {
-    "fio": "Иванов Иван Иванович",
-    "birthdate": "2004-05-12",
-    "group": "SE-01",
-    "gpa": 4.5
-  },
-  {
-    "fio": "Петров Петр Петрович",
-    "birthdate": "2003-09-30",
-    "group": "SE-02",
-    "gpa": 4.9
-  }
-]
-```
-
-`data/lab08/students_output.json` (результат работы `students_to_json` — структура такая же,
-значения могут совпадать или отличаться в зависимости от входных данных):
-
-```json
-[
-  {
-    "fio": "Иванов Иван Иванович",
-    "birthdate": "2004-05-12",
-    "group": "SE-01",
-    "gpa": 4.5
-  },
-  {
-    "fio": "Петров Петр Петрович",
-    "birthdate": "2003-09-30",
-    "group": "SE-02",
-    "gpa": 4.9
-  }
-]
-```
-
----
-
 ### Примеры запуска
-
-Запуск из корня проекта:
 
 ```bash
 python3 -m src.lab08.serialize
 ```
 ![Картинка 1](../../images/lab08/img01.png)
 
-```python
-from pathlib import Path
-from src.lab08.models import Student
-from src.lab08.serialize import students_to_json, students_from_json
+#### Пустое fio
+![Картинка 2](../../images/lab08/img02.png)
 
-root = Path(".")
-in_path = root / "data" / "lab08" / "students_input.json"
-out_path = root / "data" / "lab08" / "students_output.json"
-
-# читаем студентов из входного JSON
-students = students_from_json(in_path)
-
-for s in students:
-    print(s)          # печать с помощью __str__()
-    print(s.age())    # возраст
-
-# сохраняем (например, после каких‑то изменений)
-students_to_json(students, out_path)
+#### Ложный формат даты YYYY.MM.DD
+```json
+[
+  {
+    "fio": "Каблуков Дмитрий Каблукович",
+    "birthdate": "2007.05.07",
+    "group": "SE-01",
+    "gpa": 5.0
+  }
+]
 ```
-
-
+![картинка 3](../../images/lab08/img03.png)
