@@ -87,16 +87,16 @@ if __name__ == "__main__":
 ---
 
 ### Примеры запуска
-
+#### 1. Всё ок
 ```bash
 python3 -m src.lab08.serialize
 ```
 ![Картинка 1](../../images/lab08/img01.png)
 
-#### Пустое fio
+#### 2. Пустое fio
 ![Картинка 2](../../images/lab08/img02.png)
 
-#### Ложный формат даты YYYY.MM.DD
+#### 3. Ложный формат даты YYYY.MM.DD
 ```json
 [
   {
