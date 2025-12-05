@@ -9,7 +9,7 @@ from .models import Student
 
 def students_to_json(students: Iterable[Student], path: str | Path) -> None:
     """
-    Сохранить список студентов в JSON‑файл.
+    Сохранztn список студентов в JSON‑файл.
 
     Формат файла — JSON-массив словарей, как из Student.to_dict().
     """
@@ -23,9 +23,8 @@ def students_to_json(students: Iterable[Student], path: str | Path) -> None:
 
 def students_from_json(path: str | Path) -> List[Student]:
     """
-    Прочитать JSON‑файл и вернуть список объектов Student.
-
-    Выполняется базовая валидация структуры JSON, далее срабатывает
+    Прочитывает JSON файл и возвращает список объектов Student.
+    Выполняется обычная валидация структуры JSON, далее срабатывает
     валидация в самом классе Student.
     """
     p = Path(path)
@@ -47,4 +46,10 @@ def students_from_json(path: str | Path) -> List[Student]:
 
     return students
 
-
+if __name__ == "__main__":
+    
+    students_output = students_from_json("data/lab08/students_output.json")
+    for student in students_output:
+        print(student)
+    students_to_json(students_output, "data/lab08/students_input.json")
+    print("students_output.json created!")

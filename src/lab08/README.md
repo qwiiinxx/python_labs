@@ -1,11 +1,4 @@
-## Лабораторная работа 8 — ООП в Python: @dataclass Student, методы и сериализация
-
-### Цель работы
-
-Научиться описывать модели данных с помощью `@dataclass`, реализовывать методы и валидацию,
-а также выполнять сериализацию/десериализацию объектов в формат JSON.
-
----
+## Лабораторная работа № 8 — ООП: @dataclass Student, методы и сериализация
 
 ### Класс `Student` (`models.py`)
 
@@ -45,7 +38,7 @@ class Student:
 
 **Валидация в `__post_init__`:**
 
-- **формат даты** строго `YYYY-MM-DD` (`datetime.strptime(self.birthdate, "%Y-%m-%d")`)
+- **формат даты** `YYYY-MM-DD` (`datetime.strptime(self.birthdate, "%Y-%m-%d")`)
 - **диапазон среднего балла** `0 ≤ gpa ≤ 5` (при несоответствии выбрасывается `ValueError`)
 
 Метод `age()` использует `date.today()` и дату рождения и возвращает количество **полных лет**.
@@ -76,6 +69,14 @@ def students_to_json(students: list[Student], path: str | Path) -> None:
 def students_from_json(path: str | Path) -> list[Student]:
     # чтение JSON-файла и создание списка Student
     ...
+
+if __name__ == "__main__":
+    
+    students_output = students_from_json("data/lab08/students_output.json")
+    for student in students_output:
+        print(student)
+    students_to_json(students_output, "data/lab08/students_input.json")
+    print("students_output.json created!")
 ```
 
 - **`students_to_json`**: принимает список объектов `Student`, вызывает `to_dict()` и
@@ -133,10 +134,9 @@ def students_from_json(path: str | Path) -> list[Student]:
 Запуск из корня проекта:
 
 ```bash
-python -m src.lab08.serialize
+python3 -m src.lab08.serialize
 ```
-
-Пример небольшого скрипта (можно выполнять из интерактивной консоли Python):
+![Картинка 1](../../images/lab08/img01.png)
 
 ```python
 from pathlib import Path

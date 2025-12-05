@@ -7,16 +7,7 @@ from typing import Any, Dict
 
 @dataclass
 class Student:
-    """
-    Модель студента для ЛР8.
-
-    Поля:
-    - fio: ФИО студента (строка)
-    - birthdate: дата рождения в формате YYYY-MM-DD
-    - group: группа, например "SE-01"
-    - gpa: средний балл от 0 до 5 включительно
-    """
-
+    
     fio: str
     birthdate: str
     group: str
@@ -47,11 +38,8 @@ class Student:
             raise ValueError("gpa must be between 0 and 5")
 
     def age(self) -> int:
-        """
-        Вернуть количество полных лет студента.
-
-        Использует сегодняшнюю дату и дату рождения (birthdate).
-        """
+        """Возвращает колличество полных лет"""
+        
         born = date.fromisoformat(self.birthdate)
         today = date.today()
         years = today.year - born.year
@@ -61,7 +49,7 @@ class Student:
 
     def to_dict(self) -> Dict[str, Any]:
         """
-        Сериализовать объект Student в словарь, готовый для JSON.
+        Сериализовывает объект Student в словарь, готовый для JSON.
         """
         return {
             "fio": self.fio,
@@ -73,10 +61,9 @@ class Student:
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "Student":
         """
-        Создать экземпляр Student из словаря.
-
+        Создаёт экземпляр класса Student из словаря.
         Ожидаются ключи: fio, birthdate, group, gpa.
-        Валидация выполняется в __post_init__.
+        Валидация в __post_init__.
         """
         if not isinstance(data, dict):
             raise TypeError("data must be a dict")
@@ -90,7 +77,7 @@ class Student:
 
     def __str__(self) -> str:
         """
-        Красивый человеко‑читаемый вывод.
+        Красивенький вывод.
         """
         return f"{self.fio} (гр. {self.group}), GPA {self.gpa:.2f}, {self.age()} лет"
 
