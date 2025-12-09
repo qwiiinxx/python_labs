@@ -9,7 +9,7 @@ from .models import Student
 
 def students_to_json(students: Iterable[Student], path: str | Path) -> None:
     """
-    Сохранztn список студентов в JSON‑файл.
+    Сохраняет список студентов в JSON‑файл.
 
     Формат файла — JSON-массив словарей, как из Student.to_dict().
     """
