@@ -752,3 +752,277 @@ if __name__ == "__main__":
 ## Пути к к лабе: `src/lab08/README.md`
 
 # Лабораторная № 9
+## База данных на CSV: класс Group, CRUD-операции и CLI
+
+## Задание А: Класс Group
+
+### Основные методы
+
+#### `__init__(storage_path)`
+Инициализация группы с путём к CSV-файлу. Автоматически создаёт файл с заголовком, если его нет. **Важно:** если файл уже существует, он не перезаписывается, все существующие данные сохраняются.
+
+```python
+from src.lab09.group import Group
+
+group = Group('data/lab09/students.csv')
+```
+
+#### `list() -> list[Student]`
+Возвращает всех студентов в виде списка объектов Student.
+
+```python
+students = group.list()
+for student in students:
+    print(student)
+```
+
+#### `add(student: Student)`
+Добавляет нового студента в CSV.
+
+```python
+from src.lab08.models import Student
+
+student = Student('Иванов Иван', '2003-10-10', 'БИВТ-21-1', 4.3)
+group.add(student)
+```
+
+#### `find(substr: str) -> list[dict]`
+Находит студентов по подстроке в ФИО. Возвращает список словарей.
+
+**Валидация:**
+- Проверяет, что `substr` является строкой (иначе `TypeError`)
+- Проверяет, что `substr` не пустая и не состоит только из пробелов (иначе `ValueError`)
+
+```python
+found = group.find('Иванов')
+for record in found:
+    print(record)  # {'fio': 'Иванов Иван', 'birthdate': '2003-10-10', ...}
+
+# Примеры ошибок валидации:
+try:
+    group.find(123)  # TypeError: substr must be a string
+except TypeError as e:
+    print(e)
+
+try:
+    group.find('')  # ValueError: substr must be a non-empty string
+except ValueError as e:
+    print(e)
+```
+
+#### `remove(fio: str)`
+Удаляет запись с данным ФИО (удаляет первую найденную запись).
+
+**Валидация:**
+- Проверяет, что `fio` является строкой (иначе `TypeError`)
+- Проверяет, что `fio` не пустая и не состоит только из пробелов (иначе `ValueError`)
+
+```python
+group.remove('Иванов Иван')
+
+# Примеры ошибок валидации:
+try:
+    group.remove(123)  # TypeError: fio must be a string
+except TypeError as e:
+    print(e)
+
+try:
+    group.remove('')  # ValueError: fio must be a non-empty string
+except ValueError as e:
+    print(e)
+```
+
+#### `update(fio: str, **fields) -> bool`
+Обновляет поля существующего студента.
+
+```python
+updated = group.update('Иванов Иван', gpa=4.5, group='БИВТ-21-2')
+if updated:
+    print('Данные обновлены')
+```
+
+### Вспомогательные методы
+
+#### `_read_all() -> list[dict]`
+Читает все строки из CSV и возвращает их как список словарей.
+
+#### `_write_all(rows: list[dict])`
+Записывает все строки в CSV.
+
+#### `_ensure_storage_exists()`
+Создаёт файл с заголовком, если его ещё нет. **Важно:** не перезаписывает существующий файл, сохраняя все данные.
+
+### Полный пример использования
+
+```python
+from src.lab09.group import Group
+from src.lab08.models import Student
+
+# Создаём группу
+group = Group('data/lab09/students.csv')
+
+# Добавляем студентов
+student1 = Student('Иванов Иван', '2003-10-10', 'БИВТ-21-1', 4.3)
+student2 = Student('Петров Петр', '2002-05-15', 'БИВТ-21-2', 4.7)
+student3 = Student('Сидорова Анна', '2003-12-20', 'БИВТ-21-1', 4.9)
+
+group.add(student1)
+group.add(student2)
+group.add(student3)
+
+# Получаем список всех студентов
+all_students = group.list()
+print(f'Всего студентов: {len(all_students)}')
+
+# Поиск по подстроке
+found = group.find('Иванов')
+print(f'Найдено студентов с "Иванов": {len(found)}')
+for record in found:
+    print(record)
+
+# Обновление данных
+group.update('Иванов Иван', gpa=4.5)
+updated_records = group.find('Иванов')
+if updated_records:
+    print(f'Обновлённый GPA: {updated_records[0]["gpa"]}')
+
+# Удаление студента
+group.remove('Петров Петр')
+print(f'После удаления: {len(group.list())} студентов')
+```
+
+## Задание ★: Метод stats()
+
+Дополнительное задание — метод для получения статистики по группе студентов.
+
+### `stats() -> dict`
+
+Возвращает словарь со статистикой:
+- `count` — общее количество студентов
+- `min_gpa` — минимальный GPA
+- `max_gpa` — максимальный GPA
+- `avg_gpa` — средний GPA
+- `groups` — словарь с количеством студентов по группам
+- `top_5_students` — топ-5 студентов по GPA
+
+```python
+stats = group.stats()
+print(f"Всего студентов: {stats['count']}")
+print(f"Средний GPA: {stats['avg_gpa']:.2f}")
+print(f"Минимальный GPA: {stats['min_gpa']}")
+print(f"Максимальный GPA: {stats['max_gpa']}")
+print(f"Распределение по группам: {stats['groups']}")
+print("Топ-5 студентов:")
+for student in stats['top_5_students']:
+    print(f"  {student['fio']}: {student['gpa']}")
+```
+
+### Пример вывода stats()
+
+```python
+{
+    "count": 3,
+    "min_gpa": 4.3,
+    "max_gpa": 4.9,
+    "avg_gpa": 4.63,
+    "groups": {
+        "БИВТ-21-1": 2,
+        "БИВТ-21-2": 1
+    },
+    "top_5_students": [
+        {"fio": "Сидорова Анна", "gpa": 4.9},
+        {"fio": "Петров Петр", "gpa": 4.7},
+        {"fio": "Иванов Иван", "gpa": 4.5}
+    ]
+}
+```
+
+## Формат CSV
+
+Файл `data/lab09/students.csv` имеет следующую структуру:
+
+```csv
+fio,birthdate,group,gpa
+Иванов Иван,2003-10-10,БИВТ-21-1,4.3
+Петров Петр,2002-05-15,БИВТ-21-2,4.7
+Сидорова Анна,2003-12-20,БИВТ-21-1,4.9
+```
+
+### Валидация
+
+#### Валидация структуры CSV
+- Проверка наличия строки-заголовка в CSV (`fio,birthdate,group,gpa`)
+- Соответствие каждой строки корректному объекту Student
+- Автоматическое создание файла с заголовком при инициализации (только если файл не существует)
+- Обработка некорректных записей с предупреждениями
+
+#### Валидация входных данных методов
+- **`find(substr)`**: проверка типа и непустоты строки
+- **`remove(fio)`**: проверка типа и непустоты строки
+- **`add(student)`**: проверка типа объекта (должен быть `Student`)
+- **`update(fio, **fields)`**: проверка типа `fio`, наличия полей для обновления, допустимости полей
+
+#### Примеры обработки ошибок валидации
+
+```python
+from src.lab09.group import Group
+from src.lab08.models import Student
+
+group = Group('data/lab09/students.csv')
+
+# Валидация find
+try:
+    group.find(123)  # TypeError
+except TypeError as e:
+    print(f"Ошибка типа: {e}")
+
+try:
+    group.find('')  # ValueError
+except ValueError as e:
+    print(f"Ошибка значения: {e}")
+
+# Валидация remove
+try:
+    group.remove(None)  # TypeError
+except TypeError as e:
+    print(f"Ошибка типа: {e}")
+
+try:
+    group.remove('   ')  # ValueError (только пробелы)
+except ValueError as e:
+    print(f"Ошибка значения: {e}")
+
+# Валидация add
+try:
+    group.add("не студент")  # TypeError
+except TypeError as e:
+    print(f"Ошибка типа: {e}")
+
+# Валидация update
+try:
+    group.update('Иванов', invalid_field=123)  # ValueError
+except ValueError as e:
+    print(f"Ошибка: {e}")
+```
+
+для ридми
+```bash
+cd /Users/qwiiinxx/Desktop/work_space/python_labs && source .venv/bin/activate && python3 -c "
+from src.lab09.group import Group
+from src.lab08.models import Student
+
+# Тест: создаём Group с существующим файлом
+group = Group('data/lab09/students.csv')
+print(f'Студентов после создания Group: {len(group.list())}')
+
+# Добавляем нового студента
+group.add(Student(fio='Тестовый Студент', birthdate='2001-01-01', group='ТЕСТ-1', gpa=4.8))
+print(f'Студентов после добавления: {len(group.list())}')
+
+# Проверяем, что старые данные сохранились
+all_students = group.list()
+print('\\nВсе студенты:')
+for s in all_students:
+    print(f'  - {s.fio}')
+"
+```

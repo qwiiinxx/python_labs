@@ -10,30 +10,26 @@ class Group:
 
     HEADER = ["fio", "birthdate", "group", "gpa"]
 
-    def __init__(self, storage_path: str):
+    def __init__(self, csv_path: str):
         """
-        Инициализация группы с путём к CSV-файлу.
-        
-        Args:
-            storage_path: путь к CSV-файлу для хранения данных студентов
+        Инициализация группы с путём к CSV-файлу
+   
         """
-        self.path = Path(storage_path)
+        self.path = Path(csv_path)
         self._ensure_storage_exists()
 
     def _ensure_storage_exists(self) -> None:
-        """Создаёт файл с заголовком, если его ещё нет."""
+        """Создаёт файл с заголовком, если его ещё нет"""
+        self.path.parent.mkdir(parents=True, exist_ok=True)
         if not self.path.exists():
-            self.path.parent.mkdir(parents=True, exist_ok=True)
             with self.path.open("w", newline="", encoding="utf-8") as f:
                 writer = csv.writer(f)
                 writer.writerow(self.HEADER)
 
     def _read_all(self) -> List[dict]:
         """
-        Читает все строки из CSV и возвращает их как список словарей.
+        Читает все строки из CSV и возвращает как список словарей
         
-        Returns:
-            Список словарей с данными студентов (без заголовка)
         """
         if not self.path.exists():
             return []
@@ -50,10 +46,8 @@ class Group:
 
     def _write_all(self, rows: List[dict]) -> None:
         """
-        Записывает все строки в CSV.
-        
-        Args:
-            rows: список словарей с данными студентов
+        Записывает все строки в CSV
+
         """
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with self.path.open("w", newline="", encoding="utf-8") as f:
@@ -63,10 +57,8 @@ class Group:
 
     def list(self) -> List[Student]:
         """
-        Возвращает всех студентов в виде списка объектов Student.
+        Возвращает всех студентов в виде списка объектов Student
         
-        Returns:
-            Список объектов Student
         """
         rows = self._read_all()
         students = []
@@ -76,15 +68,13 @@ class Group:
                 students.append(student)
             except (ValueError, TypeError) as e:
                 # Пропускаем некорректные записи с предупреждением
-                print(f"Предупреждение: пропущена некорректная запись {row}: {e}")
+                print(f"Пропущена некорректная запись {row}: {e}")
         return students
 
     def add(self, student: Student) -> None:
         """
-        Добавляет нового студента в CSV.
-        
-        Args:
-            student: объект Student для добавления
+        Добавляет нового студента в CSV
+
         """
         if not isinstance(student, Student):
             raise TypeError("student must be an instance of Student")
@@ -94,43 +84,35 @@ class Group:
         rows.append(student_dict)
         self._write_all(rows)
 
-    def find(self, substr: str) -> List[Student]:
+    def find(self, substr: str) -> List[dict]:
         """
-        Находит студентов по подстроке в ФИО.
+        Находит студентов по подстроке в ФИО
         
-        Args:
-            substr: подстрока для поиска в поле fio
-            
-        Returns:
-            Список объектов Student, у которых в fio содержится substr
         """
         if not isinstance(substr, str):
             raise TypeError("substr must be a string")
+        if not substr.strip():
+            raise ValueError("substr must be a non-empty string")
+        
+        rows = self._read_all()
+        return [r for r in rows if substr in r["fio"]]
 
-        all_students = self.list()
-        return [s for s in all_students if substr.lower() in s.fio.lower()]
-
-    def remove(self, fio: str) -> bool:
+    def remove(self, fio: str) -> None:
         """
         Удаляет запись(и) с данным ФИО.
         
-        Args:
-            fio: ФИО студента для удаления
-            
-        Returns:
-            True, если была удалена хотя бы одна запись, False иначе
         """
         if not isinstance(fio, str):
             raise TypeError("fio must be a string")
-
-        rows = self._read_all()
-        initial_count = len(rows)
-        rows = [r for r in rows if r["fio"] != fio]
+        if not fio.strip():
+            raise ValueError("fio must be a non-empty string")
         
-        if len(rows) < initial_count:
-            self._write_all(rows)
-            return True
-        return False
+        rows = self._read_all()
+        for i, r in enumerate(rows):
+            if r["fio"] == fio:
+                rows.pop(i)
+                break
+        self._write_all(rows)
 
     def update(self, fio: str, **fields) -> bool:
         """
@@ -223,4 +205,4 @@ class Group:
             "groups": groups_dict,
             "top_5_students": top_5,
         }
-
+        
