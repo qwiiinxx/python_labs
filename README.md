@@ -759,7 +759,7 @@ if __name__ == "__main__":
 ### Основные методы
 
 #### `__init__(storage_path)`
-Инициализация группы с путём к CSV-файлу. Автоматически создаёт файл с заголовком, если его нет. **Важно:** если файл уже существует, он не перезаписывается, все существующие данные сохраняются.
+Инициализация группы с путём к CSV-файлу. Автоматически создаёт файл с заголовком, если его нет
 
 ```python
 from src.lab09.group import Group
@@ -768,78 +768,36 @@ group = Group('data/lab09/students.csv')
 ```
 
 #### `list() -> list[Student]`
-Возвращает всех студентов в виде списка объектов Student.
+Возвращает всех студентов в виде списка объектов Student
+---
+data:
+![Карптинка 2](./images/lab09/img02.png)
+![картинка 5](./images/lab09/img05.png)
 
-```python
-students = group.list()
-for student in students:
-    print(student)
-```
 
 #### `add(student: Student)`
-Добавляет нового студента в CSV.
+Добавляет нового студента в CSV
 
-```python
-from src.lab08.models import Student
-
-student = Student('Иванов Иван', '2003-10-10', 'БИВТ-21-1', 4.3)
-group.add(student)
-```
+![Картинка 4](./images/lab09/img04.png)
 
 #### `find(substr: str) -> list[dict]`
-Находит студентов по подстроке в ФИО. Возвращает список словарей.
+Находит студентов по подстроке в ФИО. Возвращает список словарей
+![Картинка 1](./images/lab09/img01.png)
 
-**Валидация:**
-- Проверяет, что `substr` является строкой (иначе `TypeError`)
-- Проверяет, что `substr` не пустая и не состоит только из пробелов (иначе `ValueError`)
-
-```python
-found = group.find('Иванов')
-for record in found:
-    print(record)  # {'fio': 'Иванов Иван', 'birthdate': '2003-10-10', ...}
-
-# Примеры ошибок валидации:
-try:
-    group.find(123)  # TypeError: substr must be a string
-except TypeError as e:
-    print(e)
-
-try:
-    group.find('')  # ValueError: substr must be a non-empty string
-except ValueError as e:
-    print(e)
-```
 
 #### `remove(fio: str)`
 Удаляет запись с данным ФИО (удаляет первую найденную запись).
-
-**Валидация:**
-- Проверяет, что `fio` является строкой (иначе `TypeError`)
-- Проверяет, что `fio` не пустая и не состоит только из пробелов (иначе `ValueError`)
-
-```python
-group.remove('Иванов Иван')
-
-# Примеры ошибок валидации:
-try:
-    group.remove(123)  # TypeError: fio must be a string
-except TypeError as e:
-    print(e)
-
-try:
-    group.remove('')  # ValueError: fio must be a non-empty string
-except ValueError as e:
-    print(e)
-```
+![Картинка 2](./images/lab09/img02.png)
+![Карптинка 6](./images/lab09/img06.png)
 
 #### `update(fio: str, **fields) -> bool`
-Обновляет поля существующего студента.
+**Обновляет поля существующего студента**
 
-```python
-updated = group.update('Иванов Иван', gpa=4.5, group='БИВТ-21-2')
-if updated:
-    print('Данные обновлены')
-```
+Было:
+![Картинка 2](./images/lab09/img02.png)
+**Меняем Иванова Ивана Ивановича (gpa, group):**
+
+![Картинка 7](./images/lab09/img07.png)
 
 ### Вспомогательные методы
 
@@ -937,17 +895,6 @@ for student in stats['top_5_students']:
 }
 ```
 
-## Формат CSV
-
-Файл `data/lab09/students.csv` имеет следующую структуру:
-
-```csv
-fio,birthdate,group,gpa
-Иванов Иван,2003-10-10,БИВТ-21-1,4.3
-Петров Петр,2002-05-15,БИВТ-21-2,4.7
-Сидорова Анна,2003-12-20,БИВТ-21-1,4.9
-```
-
 ### Валидация
 
 #### Валидация структуры CSV
@@ -1003,26 +950,4 @@ try:
     group.update('Иванов', invalid_field=123)  # ValueError
 except ValueError as e:
     print(f"Ошибка: {e}")
-```
-
-для ридми
-```bash
-cd /Users/qwiiinxx/Desktop/work_space/python_labs && source .venv/bin/activate && python3 -c "
-from src.lab09.group import Group
-from src.lab08.models import Student
-
-# Тест: создаём Group с существующим файлом
-group = Group('data/lab09/students.csv')
-print(f'Студентов после создания Group: {len(group.list())}')
-
-# Добавляем нового студента
-group.add(Student(fio='Тестовый Студент', birthdate='2001-01-01', group='ТЕСТ-1', gpa=4.8))
-print(f'Студентов после добавления: {len(group.list())}')
-
-# Проверяем, что старые данные сохранились
-all_students = group.list()
-print('\\nВсе студенты:')
-for s in all_students:
-    print(f'  - {s.fio}')
-"
 ```
