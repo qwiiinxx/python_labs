@@ -769,7 +769,7 @@ group = Group('data/lab09/students.csv')
 
 #### `list() -> list[Student]`
 Возвращает всех студентов в виде списка объектов Student
----
+
 data:
 ![Карптинка 2](./images/lab09/img02.png)
 ![картинка 5](./images/lab09/img05.png)
