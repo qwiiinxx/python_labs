@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import List
 
 from src.lab08.models import Student
+from src.lib.text import count_freq, top_n
 
 
 class Group:
@@ -116,11 +117,7 @@ class Group:
 
     def update(self, fio: str, **fields) -> bool:
         """
-        Обновляет поля существующего студента.
-        
-        Args:
-            fio: ФИО студента для обновления
-            **fields: поля для обновления (например, gpa=4.5, group="БИВТ-21-1")
+        Обновляет поля существующего студента
             
         Returns:
             True, если была обновлена хотя бы одна запись, False иначе
@@ -187,14 +184,21 @@ class Group:
             }
 
         gpa_values = [s.gpa for s in students]
-        groups_dict = {}
-        for student in students:
-            groups_dict[student.group] = groups_dict.get(student.group, 0) + 1
+        
+        # Используем count_freq из lib/text для подсчёта групп
+        groups_list = [s.group for s in students]
+        groups_dict = count_freq(groups_list)
 
-        # Сортируем студентов по GPA (по убыванию) и берём топ-5
-        sorted_students = sorted(students, key=lambda s: s.gpa, reverse=True)
+        # Используем top_n из lib/text для получения топ-5 студентов по GPA
+        # Создаём словарь {fio: gpa} для использования с top_n
+        # Умножаем GPA на 1000 для преобразования в int (сохраняем 3 знака после запятой)
+        gpa_dict = {s.fio: int(s.gpa * 1000) for s in students}
+        top_5_tuples = top_n(gpa_dict, n=5)
+        
+        # Преобразуем результат top_n в нужный формат
         top_5 = [
-            {"fio": s.fio, "gpa": s.gpa} for s in sorted_students[:5]
+            {"fio": fio, "gpa": gpa_int / 1000.0} 
+            for fio, gpa_int in top_5_tuples
         ]
 
         return {
