@@ -873,3 +873,7 @@ for student in stats['top_5_students']:
     print(f"  {student['fio']}: {student['gpa']}")
 ```
 ![](./images/lab09/img09.png)
+
+# Лабораторная № 10
+## Путь к лабе: `src/lab10/README.md`
+
