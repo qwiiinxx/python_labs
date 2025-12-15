@@ -1,6 +1,6 @@
 """
 Демонстрация использования Stack и Queue.
-Запуск: python -m src.lab10.demo_structures
+Запуск: python3 -m src.lab10.demo_structures
 """
 from src.lab10.structures import Stack, Queue
 
