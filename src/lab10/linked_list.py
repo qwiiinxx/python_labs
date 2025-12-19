@@ -9,17 +9,14 @@ class Node:
     Узел односвязного списка.
     
     Attributes:
-        value: Значение элемента.
+        value: Значение элемента
         next: Ссылка на следующий узел или None, если это последний узел.
     """
     
     def __init__(self, value: Any, next: 'Node | None' = None):
         """
-        Инициализация узла.
-        
-        Args:
-            value: Значение узла.
-            next: Ссылка на следующий узел (по умолчанию None).
+        Инициализация узла
+ ё
         """
         self.value: Any = value
         self.next: 'Node | None' = next
@@ -33,21 +30,8 @@ class SinglyLinkedList:
     """
     Односвязный список, состоящий из узлов Node.
     
-    Использует tail для оптимизации операций добавления в конец за O(1).
-    
-    Пример использования:
-        >>> lst = SinglyLinkedList()
-        >>> lst.append(1)
-        >>> lst.append(2)
-        >>> lst.prepend(0)
-        >>> list(lst)  # [0, 1, 2]
-        [0, 1, 2]
-        >>> lst.insert(2, 1.5)
-        >>> list(lst)  # [0, 1, 1.5, 2]
-        [0, 1, 1.5, 2]
-        >>> lst.remove_at(1)
-        >>> list(lst)  # [0, 1.5, 2]
-        [0, 1.5, 2]
+    Использует tail для оптимизации операций добавления в конец за O(1)
+
     """
     
     def __init__(self):
@@ -58,12 +42,10 @@ class SinglyLinkedList:
     
     def append(self, value: Any) -> None:
         """
-        Добавить элемент в конец списка.
+        Добавить элемент в конец списка
         
-        Сложность: O(1) благодаря использованию tail.
-        
-        Args:
-            value: Значение для добавления.
+        Сложность: O(1) благодаря использованию tail
+
         """
         new_node = Node(value)
         
@@ -80,12 +62,10 @@ class SinglyLinkedList:
     
     def prepend(self, value: Any) -> None:
         """
-        Добавить элемент в начало списка.
+        Добавить элемент в начало списка
         
         Сложность: O(1).
-        
-        Args:
-            value: Значение для добавления.
+ 
         """
         new_node = Node(value, next=self.head)
         self.head = new_node
@@ -98,19 +78,13 @@ class SinglyLinkedList:
     
     def insert(self, idx: int, value: Any) -> None:
         """
-        Вставить элемент по индексу.
+        Вставить элемент по индексу
         
-        Сложность: O(n) в худшем случае (вставка в середину).
-        
-        Args:
-            idx: Индекс для вставки (допускается от 0 до len(list)).
-            value: Значение для вставки.
-            
-        Raises:
-            IndexError: Если индекс вне диапазона [0, len(list)].
+        Сложность: O(n) в худшем случае (вставка в середину)
+
         """
         if idx < 0:
-            raise IndexError(f"Index {idx} is out of range. Negative indices are not supported.")
+            raise IndexError(f"Index {idx} is out of range. Negative indices are not supported")
         
         if idx == 0:
             self.prepend(value)
