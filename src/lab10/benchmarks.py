@@ -25,7 +25,7 @@ def _timeit(func: Callable[[], None]) -> float:
 
 
 def bench_push(n: int) -> dict[str, float]:
-    """Добавление n элементов."""
+    """Добавление n элементов"""
 
     def stack_job() -> None:
         s = Stack()
@@ -50,7 +50,7 @@ def bench_push(n: int) -> dict[str, float]:
 
 
 def bench_pop(n: int) -> dict[str, float]:
-    """Удаление n элементов (из конца/начала)."""
+    """Удаление n элементов (из конца/начала)"""
 
     def stack_job() -> None:
         s = Stack()
@@ -108,8 +108,8 @@ def main() -> None:
     print("- Во всех тестах Stack (list) и Queue (deque) заметно быстрее связного списка.")
     print("- SinglyLinkedList даёт такую же асимптотику O(1) для append/remove_at(0),")
     print("  но из-за указателей и отсутствия локальности данных в памяти работает медленнее.")
-    print("- В реальных Python-проектах обычно используют list/deque, а связный список")
-    print("  полезен прежде всего как учебный пример структуры данных.")
+
+
 
 
 if __name__ == "__main__":  # pragma: no cover

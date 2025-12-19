@@ -113,15 +113,10 @@ class SinglyLinkedList:
     
     def remove_at(self, idx: int) -> None:
         """
-        Удалить элемент по индексу.
+        Удалить элемент по индексу
         
-        Сложность: O(n) в худшем случае.
+        Сложность: O(n) в худшем случае
         
-        Args:
-            idx: Индекс элемента для удаления.
-            
-        Raises:
-            IndexError: Если индекс вне диапазона или список пуст.
         """
         if self._size == 0:
             raise IndexError("Cannot remove from empty list")
@@ -160,15 +155,10 @@ class SinglyLinkedList:
     
     def remove(self, value: Any) -> None:
         """
-        Удалить первое вхождение значения.
+        Удалить первое вхождение значения
         
-        Сложность: O(n).
+        Сложность: O(n)
         
-        Args:
-            value: Значение для удаления.
-            
-        Raises:
-            ValueError: Если значение не найдено в списке.
         """
         if self._size == 0:
             raise ValueError(f"Value {value} not found in list")
@@ -197,10 +187,10 @@ class SinglyLinkedList:
     
     def __iter__(self) -> Iterator[Any]:
         """
-        Возвращает итератор по значениям в списке (от головы к хвосту).
+        Возвращает итератор по значениям в списке (от головы к хвосту)
         
         Yields:
-            Значения узлов в порядке от головы к хвосту.
+            Делает значения генератором, возвращает по одному
         """
         current = self.head
         while current is not None:
@@ -209,7 +199,7 @@ class SinglyLinkedList:
     
     def __len__(self) -> int:
         """
-        Возвращает количество элементов в списке.
+        Возвращает количество элементов в списке
         
         Сложность: O(1).
         
